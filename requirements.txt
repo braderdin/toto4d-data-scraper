@@ -1,7 +1,7 @@
 curl-cffi>=0.7.0
 requests>=2.31.0
 beautifulsoup4>=4.15.0
-pandas>=2.0.0
+pandas>=3.0.5
 python-dotenv>=1.2.3
 lxml>=4.9.0
 rich>=15.0.0
