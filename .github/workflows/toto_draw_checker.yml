@@ -20,6 +20,19 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
+      # =========================================================
+      # TARIK ARTIFAK JSON DARI WORKFLOW SCRAPER TERKINI
+      # =========================================================
+      - name: Muat Turun Artifak Result JSON
+        uses: dawidd6/action-download-artifact@v9
+        with:
+          workflow: toto_scraper.yml  # Tukar ke nama fail yml scraper anda (cth: main.yml / scraper.yml)
+          name: toto-4d-results
+          path: data/output/
+          check_artifacts: true
+          search_artifacts: true
+        continue-on-error: true
+
       - name: Pasang Pustaka Python
         run: |
           python -m pip install --upgrade pip
