@@ -2,8 +2,17 @@ name: Toto 4D Auto Scraper & Telegram Report
 
 on:
   schedule:
-    - cron: '0 0 * * 0,1,4,5'
+# Isnin, Selasa & Khamis, jam 10:00 Pagi MYT
+  - cron: '0 2 * * 1,2,4'
+
+# Sabtu, jam 11:30 Malam MYT
+  - cron: '30 15 * * 6'
+  
   workflow_dispatch:
+
+# Kebenaran untuk membolehkan GitHub Action commit balik ke repo
+permissions:
+  contents: write
 
 jobs:
   run-scraper:
@@ -31,9 +40,6 @@ jobs:
         run: |
           python python_script/toto_main.py
 
-      # =========================================================
-      # STEP BAHARU: Semakan Output Berasingan (Gap, Hybrid & Strategy)
-      # =========================================================
       - name: Jalankan Semakan Gap Analysis Standalone
         run: |
           python python_script/toto_04_gap_analyzer.py
@@ -46,9 +52,11 @@ jobs:
         run: |
           python python_script/toto_06_strategy_advisor.py
 
-      - name: Simpan Keputusan JSON Sebagai Artifak
-        uses: actions/upload-artifact@v7
+      # =========================================================
+      # STEP BAHARU: COMMIT & PUSH FAIL JSON KE REPOSITORI
+      # =========================================================
+      - name: Commit & Push Kemaskini Data JSON
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          name: toto-4d-results
-          path: data/output/toto_4d_results.json
-          retention-days: 14
+          commit_message: "chrono: Auto-update toto_4d_results.json [skip ci]"
+          file_pattern: 'data/output/toto_4d_results.json'

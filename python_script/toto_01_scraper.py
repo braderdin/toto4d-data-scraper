@@ -100,22 +100,34 @@ def process_html_response(html_text, date_str):
         
     return parsed_data
 
-def fetch_toto_data(days=365):
+def fetch_toto_data(days=None):
     """
-    Fungsi fleksibel untuk mengutip data mengikut bilangan hari.
-    Contoh: 180 (6 bulan), 365 (1 tahun), 730 (2 tahun).
+    Mengutip data Sports Toto 4D secara pintar:
+    - Jika fail JSON wujud: Tarik 14 hari sahaja & gabung data baharu ke atas data lama.
+    - Jika fail JSON tiada: Tarik 365 hari penuh.
     """
-    console.print(f"[bold cyan]🚀 Mula mengutip data Sports Toto 4D bagi tempoh {days} hari...[/bold cyan]\n")
+    existing_data = []
+    if os.path.exists(OUTPUT_FILE):
+        try:
+            with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+                existing_data = json.load(f)
+        except Exception as e:
+            console.print(f"[bold red][-] Ralat membaca JSON tempatan: {e}[/bold red]")
+
+    # Tentukan bilangan hari scraping secara automatik
+    if days is None:
+        days = 14 if existing_data else 365
+
+    console.print(f"[bold cyan]🚀 Mula mengutip data Sports Toto 4D ({days} hari terkini)...[/bold cyan]\n")
     
-    results = []
+    scraped_results = []
     now = datetime.now()
     start_date = now - timedelta(days=days)
     
     dates_to_check = []
     curr = now
     while curr >= start_date:
-        # 1=Selasa (Special Draw), 2=Rabu, 5=Sabtu, 6=Ahad
-        if curr.weekday() in [1, 2, 5, 6]:
+        if curr.weekday() in [1, 2, 5, 6]:  # Selasa, Rabu, Sabtu, Ahad
             dates_to_check.append(curr)
         curr -= timedelta(days=1)
 
@@ -152,26 +164,38 @@ def fetch_toto_data(days=365):
                     continue
             
             if draw_data:
-                results.append(draw_data)
-                console.print(f"  [bold green]✔[/bold green] [white]{draw_data['date']}[/white] | Draw: [cyan]{draw_data['draw_no']}[/cyan] | 1st: [bold yellow]{draw_data['1st_prize']}[/bold yellow] | 2nd: [green]{draw_data['2nd_prize']}[/green] | 3rd: [blue]{draw_data['3rd_prize']}[/blue]")
+                scraped_results.append(draw_data)
+                console.print(f"  [bold green]✔[/bold green] [white]{draw_data['date']}[/white] | Draw: [cyan]{draw_data['draw_no']}[/cyan] | 1st: [bold yellow]{draw_data['1st_prize']}[/bold yellow]")
             else:
-                # Kawalan log bersih jika tarikh hari ini belum berlangsung
                 if dt.date() == now.date() and now.hour < 20:
-                    console.print(f"  [bold yellow]⏳ Cabutan {formatted_date_slash} belum berlangsung (Keputusan biasa keluar ~7:30PM-8:00PM)[/bold yellow]")
+                    console.print(f"  [bold yellow]⏳ Cabutan {formatted_date_slash} belum berlangsung[/bold yellow]")
                 else:
-                    console.print(f"  [bold dim]✖ Tiada keputusan/Bukan hari cabutan bagi tarikh: {formatted_date_slash}[/bold dim]")
+                    console.print(f"  [bold dim]✖ Tiada keputusan: {formatted_date_slash}[/bold dim]")
 
             progress.advance(task)
             time.sleep(0.15)
 
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(results, f, indent=4, ensure_ascii=False)
+    # GABUNG DATA BAHARU & ELAK PERTINDIHAN (DEDUPLICATION)
+    existing_draw_nos = {d.get("draw_no") for d in existing_data if d.get("draw_no") and d.get("draw_no") != "N/A"}
+    existing_dates = {d.get("date") for d in existing_data if d.get("date")}
 
-    console.print(f"\n[bold green]✨ Scraping Selesai![/bold green] Total [bold yellow]{len(results)}[/bold yellow] cabutan disimpan ke 📁 {OUTPUT_FILE}")
-    return results
+    new_entries = []
+    for item in scraped_results:
+        # Elak duplikasi berdasarkan draw_no atau date
+        if item["draw_no"] not in existing_draw_nos and item["date"] not in existing_dates:
+            new_entries.append(item)
+
+    # Letak data terbaharu di atas sekali (index 0)
+    final_data = new_entries + existing_data
+
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        json.dump(final_data, f, indent=4, ensure_ascii=False)
+
+    console.print(f"\n[bold green]✨ Kemaskini Selesai![/bold green] [bold yellow]+{len(new_entries)}[/bold yellow] cabutan baharu ditambah. Jumlah keseluruhan: [bold cyan]{len(final_data)}[/bold cyan] cabutan disimpan ke 📁 {OUTPUT_FILE}")
+    return final_data
 
 # Alias sokongan jika skrip lama panggil nama lama
 fetch_past_6_months = lambda: fetch_toto_data(days=180)
 
 if __name__ == "__main__":
-    fetch_toto_data(days=365)
+    fetch_toto_data()

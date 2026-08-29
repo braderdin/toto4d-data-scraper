@@ -2,9 +2,13 @@ name: Toto 4D Draw Checker (Semakan Hadiah Telegram)
 
 on:
   schedule:
-    # Berjalan jam 04:00 UTC (12:00 PM MYT) pada hari Isnin, Rabu, Khamis, Ahad
+    # Berjalan jam 04:00 UTC 12:00 Tengah Hari (MYT) pada hari Ahad, Isnin, Rabu, dan Khamis.
     - cron: '0 4 * * 0,1,3,4'
   workflow_dispatch:
+
+# Kebenaran untuk membolehkan GitHub Action commit balik ke repo
+permissions:
+  contents: write
 
 jobs:
   run-checker:
@@ -37,3 +41,10 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           python python_script/toto_11_draw_checker.py
+
+      # STEP 3: Auto Commit fail JSON jika terdapat cabutan baharu
+      - name: Commit & Push Kemaskini Data JSON
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chrono: Auto-update toto_4d_results.json via draw checker [skip ci]"
+          file_pattern: 'data/output/toto_4d_results.json'
