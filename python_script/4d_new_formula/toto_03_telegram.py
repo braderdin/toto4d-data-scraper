@@ -2,15 +2,13 @@ import os
 import requests
 from dotenv import load_dotenv
 
-# --- BAHAGI INI SUDAH DIPERBAIKI: 
-# Cari .env.local 2 level ke atas dari lokasi file ini (dari 4d_new_formula -> python_script -> toto4d-data-scraper)
-ENV_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env.local")
+# Muat turun persekitaran dari .env.local jika wujud (Local execution)
+ENV_PATH = os.path.join(os.path.dirname(__file__), "..", ".env.local")
 if os.path.exists(ENV_PATH):
     load_dotenv(ENV_PATH)
 
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-
 
 def send_telegram_message(text_message):
     if not BOT_TOKEN or not CHAT_ID:
@@ -36,7 +34,6 @@ def send_telegram_message(text_message):
         print(f"[-] Ralat semasa menghantar ke Telegram: {e}")
     
     return False
-
 
 if __name__ == "__main__":
     send_telegram_message("🤖 Test Notifikasi dari Toto 4D Scraper!")
