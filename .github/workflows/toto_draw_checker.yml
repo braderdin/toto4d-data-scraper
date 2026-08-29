@@ -2,8 +2,8 @@ name: Toto 4D Draw Checker (Semakan Hadiah Telegram)
 
 on:
   schedule:
-    # Berjalan jam 00:00 UTC (8:00 AM MYT) pada hari Isnin, Rabu, Khamis, Ahad
-    - cron: '0 0 * * 0,1,3,4'
+    # Berjalan jam 04:00 UTC (12:00 PM MYT) pada hari Isnin, Rabu, Khamis, Ahad
+    - cron: '0 4 * * 0,1,3,4'
   workflow_dispatch:
 
 jobs:
@@ -20,24 +20,17 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      # =========================================================
-      # TARIK ARTIFAK JSON DARI WORKFLOW SCRAPER TERKINI
-      # =========================================================
-      - name: Muat Turun Artifak Result JSON
-        uses: dawidd6/action-download-artifact@v9
-        with:
-          workflow: toto_scraper.yml  # Tukar ke nama fail yml scraper anda (cth: main.yml / scraper.yml)
-          name: toto-4d-results
-          path: data/output/
-          check_artifacts: true
-          search_artifacts: true
-        continue-on-error: true
-
       - name: Pasang Pustaka Python
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+      # STEP 1: Kemaskini JSON tempatan dengan keputusan cabutan malam ini (Senyap)
+      - name: Scrape Data Terkini (Silent Refresh)
+        run: |
+          python python_script/toto_01_scraper.py
+
+      # STEP 2: Semak nombor taruhan berbanding data[0] & hantar laporan ke Telegram
       - name: Semak Keputusan Cabutan Terkini & Hantar Ke Telegram
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
