@@ -1,0 +1,49 @@
+name: Toto 4D Weekly Update (7 Hari)
+
+on:
+  schedule:
+    # Setiap Isnin jam 07:00 PET untu update 7 hari
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Kod Repositori
+        uses: actions/checkout@v7
+
+      - name: Pasang Persekitaran Python 3.11
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Pasang Pustaka Python
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Jalankan Scraper Update 7 Hari
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python python_script/4d_new_formula/toto_01_scraper_baru.py
+
+      - name: Semak Analisis dan Hantar Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python python_script/4d_new_formula/toto_main_baru.py
+
+      - name: Commit & Push JSON Baharu
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "chrono: Auto-update toto_4d_results_new.json via weekly [skip ci]"
+          file_pattern: 'data/output/toto_4d_results_new.json'

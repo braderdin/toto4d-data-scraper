@@ -1,0 +1,50 @@
+name: Toto 4D 1-Year Initial Scrape & Weekly Update
+
+on:
+  schedule:
+    # setiap Ahun sekali (boleh di-tetapkan manually) untuk scrape 365 hari pertama
+    - cron: '0 2 1 * *'  # hari ke-1 setiap bulan, jam 02:00 PET - sebagai contoh awal
+  workflow_dispatch:
+    inputs:
+      run_initial:
+        description: "Jalankan scrape 365 hari pertama kalinya?"
+        default: 'false'
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Kod Repositori
+        uses: actions/checkout@v7
+
+      - name: Pasang Persekitaran Python 3.11
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Pasang Pustaka Python
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Kami Keputusanapa Scrape Yang Dibutuhkan
+        run: |
+          if [ "${{ github.event.inputs.run_initial }}" == "true" ]; then
+            echo "Memastikan data 365 hari simpan sebagai toto_4d_results_new.json..."
+            python python_script/4d_new_formula/toto_01_scraper_baru.py
+          else
+            echo "Melanjutkan update 7 hari (logic dalam skrip)..."
+            python python_script/4d_new_formula/toto_01_scraper_baru.py
+          fi
+
+      - name: Commit & Push JSON Baharu
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "chrono: Auto-update toto_4d_results_new.json [skip ci]"
+          file_pattern: 'data/output/toto_4d_results_new.json'
