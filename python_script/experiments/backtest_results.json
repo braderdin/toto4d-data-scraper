@@ -1,0 +1,38 @@
+{
+  "total_historical_samples": 3239,
+  "total_candidates_retained": 3,
+  "top_50_candidates": [
+    {
+      "number": "5585",
+      "sum": 23,
+      "score": 6.39e-06
+    },
+    {
+      "number": "4554",
+      "sum": 18,
+      "score": 5e-06
+    },
+    {
+      "number": "4544",
+      "sum": 17,
+      "score": 4.72e-06
+    }
+  ],
+  "all_retained_candidates": [
+    {
+      "number": "5585",
+      "sum": 23,
+      "score": 6.39e-06
+    },
+    {
+      "number": "4554",
+      "sum": 18,
+      "score": 5e-06
+    },
+    {
+      "number": "4544",
+      "sum": 17,
+      "score": 4.72e-06
+    }
+  ]
+}

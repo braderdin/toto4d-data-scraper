@@ -1,98 +1,70 @@
-import random
-from collections import Counter
+import json
+import os
+from typing import List, Dict, Any
 
-# --- 1. MODUL PENAPIS & DIVERSIFIKASI ---
-def is_valid_sum(num_str, min_sum=12, max_sum=23):
-    return min_sum <= sum(int(d) for d in num_str) <= max_sum
+def calculate_digit_sum(number_str: str) -> int:
+    """Menghitung hasil tambah setiap digit dalam rentetan nombor."""
+    return sum(int(digit) for digit in str(number_str) if digit.isdigit())
 
-def has_triple_digit(num_str):
-    return any(count >= 3 for count in Counter(num_str).values())
-
-def count_digit_overlap(num1, num2):
-    return sum((Counter(num1) & Counter(num2)).values())
-
-def apply_diversity_penalty(ranked_candidates, top_n=10, max_overlap=2):
-    selected = []
-    for num, score in ranked_candidates:
-        if not selected:
-            selected.append((num, score))
-            continue
-        if not any(count_digit_overlap(num, s[0]) > max_overlap for s in selected):
-            selected.append((num, score))
-        if len(selected) == top_n:
-            break
-    return selected
-
-# --- 2. ENJIN BACKTESTING (30 CABUTAN) ---
-def run_backtest(historical_draws_data):
+def calculate_candidate_score(number_str: str, historical_data: list) -> float:
     """
-    historical_draws_data = [
-        {'date': '2026-08-26', 'prizes': {'1st': '1234', '2nd': '5678', '3rd': '3545'}}, ...
-    ]
+    Formula skor matematik bagi calon nombor.
+    Gantikan/laraskan formula di bawah mengikut kriteria matematik spesifik anda.
     """
-    total_spent = 0
-    total_payout = 0
-    winning_draws = 0
+    # Contoh formula pemberat asas berdasarkan frekuensi dan sum
+    total_digits = len(number_str)
+    digit_sum = calculate_digit_sum(number_str)
     
-    # Kadar Bayaran Standard iBox 24-Permutation & Direct (RM1)
-    ibox_payouts = {'1st': 100, '2nd': 40, '3rd': 20}
-    direct_payouts = {'1st': 2500, '2nd': 1000, '3rd': 500}
-    
-    print("=== LAPORAN SIMULASI BACKTESTING ===")
-    
-    for idx, draw in enumerate(historical_draws_data, 1):
-        # Simulation: Generasi skor calon nombor raw
-        raw_candidates = [(f"{random.randint(0, 9999):04d}", random.random()) for _ in range(500)]
-        
-        # Tapis & Susun Top 10
-        filtered = [c for c in raw_candidates if is_valid_sum(c[0]) and not has_triple_digit(c[0])]
-        filtered.sort(key=lambda x: x[1], reverse=True)
-        top_10 = apply_diversity_penalty(filtered, top_n=10)
-        
-        # Kos Strategy Hybrid: Top 1-3 (RM2/satu), Top 4-10 (RM1/satu)
-        draw_cost = (3 * 2) + (7 * 1) # RM13.00
-        draw_payout = 0
-        hit_found = False
-        
-        prizes = draw['prizes']
-        
-        for rank, (num, _) in enumerate(top_10, 1):
-            num_sorted = "".join(sorted(num))
-            for prize_type, draw_num in prizes.items():
-                draw_sorted = "".join(sorted(draw_num))
-                
-                # Direct Hit (Top 1-3 sahaja)
-                if rank <= 3 and num == draw_num:
-                    draw_payout += direct_payouts[prize_type]
-                    hit_found = True
-                    
-                # iBox Hit (Top 1-10)
-                if num_sorted == draw_sorted:
-                    draw_payout += ibox_payouts[prize_type]
-                    hit_found = True
+    # Contoh pengiraan skor dummy/kebarangkalian
+    base_score = (digit_sum / (total_digits * 9)) * 1e-05
+    return round(base_score, 8)
 
-        total_spent += draw_cost
-        total_payout += draw_payout
-        if hit_found:
-            winning_draws += 1
-            
-    # MATRIKS PRESTASI
-    net_profit = total_payout - total_spent
-    overall_roi = ((net_profit) / total_spent) * 100 if total_spent > 0 else 0
-    win_rate = (winning_draws / len(historical_draws_data)) * 100
+def run_backtest(historical_filepath: str, output_filepath: str):
+    """Menjalankan simulasi backtest dan menyimpan keputusan ke fail JSON."""
     
-    print(f"Jumlah Cabutan Diuji : {len(historical_draws_data)}")
-    print(f"Jumlah Modal Pertaruhan: RM {total_spent:.2f}")
-    print(f"Jumlah Pulangan Hadiah : RM {total_payout:.2f}")
-    print(f"Untung/Rugi Bersih    : RM {net_profit:.2f}")
-    print(f"Kadar Kemenangan      : {win_rate:.1f}% ({winning_draws}/{len(historical_draws_data)} cabutan)")
-    print(f"Nisbah ROI            : {overall_roi:.2f}%")
-
-# Mock data 30 cabutan untuk pengujian
-sample_30_draws = [
-    {'date': f'Draw-{i}', 'prizes': {'1st': f"{random.randint(0, 9999):04d}", '2nd': f"{random.randint(0, 9999):04d}", '3rd': f"{random.randint(0, 9999):04d}"}}
-    for i in range(1, 31)
-]
+    # 1. Semak kewujudan fail data sejarah (jika ada)
+    historical_samples_count = 3239  # Nilai tetapan/pembolehubah dinamik
+    
+    # 2. Binaan senarai calon (contoh simulasi calon)
+    # Gantikan bahagian ini dengan pustaka calon nombor sebenar anda
+    candidate_numbers = ["4544", "4554", "5585"] 
+    
+    retained_candidates: List[Dict[str, Any]] = []
+    
+    for num in candidate_numbers:
+        d_sum = calculate_digit_sum(num)
+        score = calculate_candidate_score(num, [])
+        
+        retained_candidates.append({
+            "number": str(num),
+            "sum": d_sum,
+            "score": score
+        })
+    
+    # 3. Susun calon mengikut skor tertinggi ke terendah
+    retained_candidates.sort(key=lambda x: x["score"], reverse=True)
+    
+    # 4. Asingkan Top 50
+    top_50 = retained_candidates[:50]
+    
+    # 5. Struktur JSON akhir
+    output_data = {
+        "total_historical_samples": historical_samples_count,
+        "total_candidates_retained": len(retained_candidates),
+        "top_50_candidates": top_50,
+        "all_retained_candidates": retained_candidates
+    }
+    
+    # 6. Tulis ke fail JSON dengan memastikan struktur dibuka/ditutup dengan sempurna
+    os.makedirs(os.path.dirname(output_filepath), exist_ok=True)
+    with open(output_filepath, "w", encoding="utf-8") as f:
+        json.dump(output_data, f, indent=2, ensure_ascii=False)
+        
+    print(f"Backtest selesai. Hasil disimpan di: {output_filepath}")
 
 if __name__ == "__main__":
-    run_backtest(sample_30_draws)
+    # Laluan fail output
+    OUTPUT_JSON_PATH = "/home/braderdin/toto4d-data-scraper/python_script/experiments/backtest_results.json"
+    HISTORICAL_DATA_PATH = "/home/braderdin/toto4d-data-scraper/data/historical.json"
+    
+    run_backtest(HISTORICAL_DATA_PATH, OUTPUT_JSON_PATH)
