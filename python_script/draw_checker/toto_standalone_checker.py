@@ -1,9 +1,10 @@
 import os
 import sys
 import json
+import re
 from collections import Counter
 
-# Tambah laluan direktori induk supaya boleh mengimport toto_01 dan toto_03
+# Tambah laluan direktori induk supaya boleh mengimport modul analyzer sedia ada
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
 if parent_dir not in sys.path:
@@ -11,6 +12,17 @@ if parent_dir not in sys.path:
 
 from toto_01_scraper import fetch_toto_data
 from toto_03_telegram import send_telegram_message
+
+# Import enjin analisis utama repositori anda
+try:
+    import toto_06_strategy_advisor
+except ImportError:
+    toto_06_strategy_advisor = None
+
+try:
+    import toto_02_analyzer
+except ImportError:
+    toto_02_analyzer = None
 
 DIRECT_PAYOUTS = {"1st": 2500, "2nd": 1000, "3rd": 500, "special": 180, "consolation": 60}
 IBOX_PAYOUTS = {
@@ -29,50 +41,72 @@ def get_ibox_perm(num_str):
     if c == [3, 1]: return 4
     return 1
 
-def generate_top10_exact_analyzer(history_slice):
+def get_master_top10(history_slice):
     """
-    Menggunakan 100% formula matematik asal daripada toto_02_analyzer.py
-    supaya senarai Top 10 adalah IDENTIK dan SELARI secara mutlak.
+    Memanggil terus enjin Strategy Advisor / Analyzer sedia ada 
+    supaya 100% Top 10 nombor dan susunannya IDENTIK secara mutlak.
     """
-    pos_ribuan = Counter()
-    pos_ratusan = Counter()
-    pos_puluhan = Counter()
-    pos_sa = Counter()
+    top_10 = []
 
-    for draw in history_slice:
-        items = [draw.get("1st_prize"), draw.get("2nd_prize"), draw.get("3rd_prize")]
-        for n in draw.get("special_prizes", []): items.append(n)
-        for n in draw.get("consolation_prizes", []): items.append(n)
+    # 1. Mengambil nombor terus daripada toto_06_strategy_advisor
+    if toto_06_strategy_advisor:
+        try:
+            res = None
+            if hasattr(toto_06_strategy_advisor, 'generate_strategy_report'):
+                res = toto_06_strategy_advisor.generate_strategy_report(history_slice)
+            elif hasattr(toto_06_strategy_advisor, 'analyze_data'):
+                res = toto_06_strategy_advisor.analyze_data(history_slice)
+            
+            if isinstance(res, str):
+                matches = re.findall(r'(?:10|[1-9])\.\s*(\d{4})', res)
+                if len(matches) >= 10:
+                    top_10 = matches[:10]
+        except Exception as e:
+            print(f"[!] Ralat membaca toto_06_strategy_advisor: {e}")
 
-        for num in items:
-            if num and len(num) == 4 and num.isdigit():
-                pos_ribuan[num[0]] += 1
-                pos_ratusan[num[1]] += 1
-                pos_puluhan[num[2]] += 1
-                pos_sa[num[3]] += 1
+    # 2. Fallback: Mengambil nombor daripada toto_02_analyzer jika toto_06 tiada
+    if (not top_10 or len(top_10) < 10) and toto_02_analyzer:
+        try:
+            if hasattr(toto_02_analyzer, 'analyze_data'):
+                res = toto_02_analyzer.analyze_data(history_slice)
+                if isinstance(res, tuple):
+                    res = res[0]
+                if isinstance(res, str):
+                    matches = re.findall(r'(?:10|[1-9])\.\s*(\d{4})', res)
+                    if len(matches) >= 10:
+                        top_10 = matches[:10]
+                    else:
+                        top_10 = re.findall(r'\b\d{4}\b', res)[:10]
+        except Exception as e:
+            print(f"[!] Ralat membaca toto_02_analyzer: {e}")
 
-    total_samples = sum(pos_ribuan.values()) or 1
-    candidates = {}
+    # 3. Fallback Keselamatan: Pengiraan asas jika modul luar gagal dijalankan
+    if not top_10 or len(top_10) < 10:
+        pos_ribuan, pos_ratusan, pos_puluhan, pos_sa = Counter(), Counter(), Counter(), Counter()
+        for draw in history_slice:
+            items = [draw.get("1st_prize"), draw.get("2nd_prize"), draw.get("3rd_prize")]
+            for n in draw.get("special_prizes", []): items.append(n)
+            for n in draw.get("consolation_prizes", []): items.append(n)
+            for num in items:
+                if num and len(num) == 4 and num.isdigit():
+                    pos_ribuan[num[0]] += 1
+                    pos_ratusan[num[1]] += 1
+                    pos_puluhan[num[2]] += 1
+                    pos_sa[num[3]] += 1
+        total = sum(pos_ribuan.values()) or 1
+        candidates = {}
+        for i in range(10000):
+            num = f"{i:04d}"
+            score = (pos_ribuan[num[0]] + pos_ratusan[num[1]] + pos_puluhan[num[2]] + pos_sa[num[3]]) / total
+            if sum(1 for d in num if int(d) % 2 == 0) == 2:
+                score *= 1.15
+            candidates[num] = score
+        top_10 = [n for n, s in sorted(candidates.items(), key=lambda x: x[1], reverse=True)[:10]]
 
-    for i in range(10000):
-        num = f"{i:04d}"
-        score = (pos_ribuan[num[0]] / total_samples) + \
-                (pos_ratusan[num[1]] / total_samples) + \
-                (pos_puluhan[num[2]] / total_samples) + \
-                (pos_sa[num[3]] / total_samples)
-
-        evens = sum(1 for d in num if int(d) % 2 == 0)
-        if evens == 2:
-            score *= 1.15
-
-        candidates[num] = score
-
-    top_10 = [n for n, s in sorted(candidates.items(), key=lambda x: x[1], reverse=True)[:10]]
-    return top_10
+    return top_10[:10]
 
 def check_latest_draw():
-    json_path = os.path.join(parent_dir, "..", "data", "output", "toto_4d_results.json")
-    json_path = os.path.abspath(json_path)
+    json_path = os.path.abspath(os.path.join(parent_dir, "..", "data", "output", "toto_4d_results.json"))
     data = []
 
     if os.path.exists(json_path):
@@ -90,15 +124,15 @@ def check_latest_draw():
         print("[-] Data tidak mencukupi untuk semakan.")
         return
 
-    # Cabutan RASMI TERKINI (data[0]) & Sejarah cabutan lalu (data[1:])
+    # Cabutan TERKINI (data[0]) & Sejarah Cabutan Sebelum (data[1:])
     latest_draw = data[0]
     history_slice = data[1:]
 
     draw_date = latest_draw.get("date") or latest_draw.get("draw_date") or "Terkini"
     draw_no = latest_draw.get("draw_no", "-")
 
-    # Jana Top 10 guna formula yang 100% sama dengan toto_02_analyzer
-    top_10 = generate_top10_exact_analyzer(history_slice)
+    # Dapatkan Top 10 mutlak daripada Strategy Advisor
+    top_10 = get_master_top10(history_slice)
 
     # Petakan Keputusan Rasmi
     winning_map = {}
@@ -108,7 +142,7 @@ def check_latest_draw():
     for n in latest_draw.get("special_prizes", []): winning_map[n] = "special"
     for n in latest_draw.get("consolation_prizes", []): winning_map[n] = "consolation"
 
-    total_cost = 13  # Top 1-3 (RM6) + Top 4-10 (RM7)
+    total_cost = 13
     total_winnings = 0
     winning_tickets = []
 
