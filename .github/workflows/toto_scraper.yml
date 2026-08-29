@@ -56,7 +56,7 @@ jobs:
       # STEP BAHARU: COMMIT & PUSH FAIL JSON KE REPOSITORI
       # =========================================================
       - name: Commit & Push Kemaskini Data JSON
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chrono: Auto-update toto_4d_results.json [skip ci]"
           file_pattern: 'data/output/toto_4d_results.json'
