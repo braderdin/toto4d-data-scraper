@@ -4,7 +4,7 @@ import json
 import re
 from collections import Counter
 
-# Tambah laluan direktori induk supaya boleh mengimport modul analyzer sedia ada
+# Tambah laluan direktori induk supaya boleh mengimport toto_01, toto_02, dan toto_03
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, ".."))
 if parent_dir not in sys.path:
@@ -13,12 +13,7 @@ if parent_dir not in sys.path:
 from toto_01_scraper import fetch_toto_data
 from toto_03_telegram import send_telegram_message
 
-# Import enjin analisis utama repositori anda
-try:
-    import toto_06_strategy_advisor
-except ImportError:
-    toto_06_strategy_advisor = None
-
+# Import terus toto_02_analyzer untuk mengekstrak Top 10 mutlak
 try:
     import toto_02_analyzer
 except ImportError:
@@ -41,49 +36,29 @@ def get_ibox_perm(num_str):
     if c == [3, 1]: return 4
     return 1
 
-def get_master_top10(history_slice):
+def extract_top10_from_analyzer(data):
     """
-    Memanggil terus enjin Strategy Advisor / Analyzer sedia ada 
-    supaya 100% Top 10 nombor dan susunannya IDENTIK secara mutlak.
+    Menjalankan toto_02_analyzer ke atas dataset 'data' yang sama
+    dan mengekstrak Top 10 nombor tepat seperti dalam Laporan Telegram.
     """
     top_10 = []
-
-    # 1. Mengambil nombor terus daripada toto_06_strategy_advisor
-    if toto_06_strategy_advisor:
+    if toto_02_analyzer and hasattr(toto_02_analyzer, 'analyze_data'):
         try:
-            res = None
-            if hasattr(toto_06_strategy_advisor, 'generate_strategy_report'):
-                res = toto_06_strategy_advisor.generate_strategy_report(history_slice)
-            elif hasattr(toto_06_strategy_advisor, 'analyze_data'):
-                res = toto_06_strategy_advisor.analyze_data(history_slice)
-            
-            if isinstance(res, str):
-                matches = re.findall(r'(?:10|[1-9])\.\s*(\d{4})', res)
+            report = toto_02_analyzer.analyze_data(data)
+            if isinstance(report, tuple):
+                report = report[0]
+            if isinstance(report, str):
+                # Ekstrak nombor 1. XXXX hingga 10. XXXX terus dari teks laporan
+                matches = re.findall(r'(?:10|[1-9])\.\s*(\d{4})', report)
                 if len(matches) >= 10:
                     top_10 = matches[:10]
         except Exception as e:
-            print(f"[!] Ralat membaca toto_06_strategy_advisor: {e}")
+            print(f"[!] Ralat semasa memanggil toto_02_analyzer: {e}")
 
-    # 2. Fallback: Mengambil nombor daripada toto_02_analyzer jika toto_06 tiada
-    if (not top_10 or len(top_10) < 10) and toto_02_analyzer:
-        try:
-            if hasattr(toto_02_analyzer, 'analyze_data'):
-                res = toto_02_analyzer.analyze_data(history_slice)
-                if isinstance(res, tuple):
-                    res = res[0]
-                if isinstance(res, str):
-                    matches = re.findall(r'(?:10|[1-9])\.\s*(\d{4})', res)
-                    if len(matches) >= 10:
-                        top_10 = matches[:10]
-                    else:
-                        top_10 = re.findall(r'\b\d{4}\b', res)[:10]
-        except Exception as e:
-            print(f"[!] Ralat membaca toto_02_analyzer: {e}")
-
-    # 3. Fallback Keselamatan: Pengiraan asas jika modul luar gagal dijalankan
+    # Fallback keselamatan jika toto_02_analyzer tidak dipasang dengan betul
     if not top_10 or len(top_10) < 10:
         pos_ribuan, pos_ratusan, pos_puluhan, pos_sa = Counter(), Counter(), Counter(), Counter()
-        for draw in history_slice:
+        for draw in data:
             items = [draw.get("1st_prize"), draw.get("2nd_prize"), draw.get("3rd_prize")]
             for n in draw.get("special_prizes", []): items.append(n)
             for n in draw.get("consolation_prizes", []): items.append(n)
@@ -124,15 +99,12 @@ def check_latest_draw():
         print("[-] Data tidak mencukupi untuk semakan.")
         return
 
-    # Cabutan TERKINI (data[0]) & Sejarah Cabutan Sebelum (data[1:])
     latest_draw = data[0]
-    history_slice = data[1:]
-
     draw_date = latest_draw.get("date") or latest_draw.get("draw_date") or "Terkini"
     draw_no = latest_draw.get("draw_no", "-")
 
-    # Dapatkan Top 10 mutlak daripada Strategy Advisor
-    top_10 = get_master_top10(history_slice)
+    # Jalankan terus ke atas dataset 'data' penuh supaya 100% IDENTIK dengan toto_02
+    top_10 = extract_top10_from_analyzer(data)
 
     # Petakan Keputusan Rasmi
     winning_map = {}
