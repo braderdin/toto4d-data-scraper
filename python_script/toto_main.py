@@ -8,12 +8,13 @@ from toto_06_strategy_advisor import generate_strategy_advisor
 from toto_03_telegram import send_telegram_message
 
 console = Console()
-DAYS_TO_FETCH = 365 
 
 def main():
-    console.print(Panel.fit(f"[bold magenta]🎰 TOTO 4D DATA SCRAPER & STRATEGY ANALYZER ({DAYS_TO_FETCH} HARI) 🎰[/bold magenta]", border_style="cyan"))
+    console.print(Panel.fit("[bold magenta]🎰 TOTO 4D DATA SCRAPER & STRATEGY ANALYZER 🎰[/bold magenta]", border_style="cyan"))
     
-    results = fetch_toto_data(days=DAYS_TO_FETCH)
+    # Dibiarkan tanpa argument 'days' supaya toto_01_scraper menentukan bilangan 
+    # hari secara automatik (14 hari jika fail JSON wujud, 365 hari jika fail tiada)
+    results = fetch_toto_data()
     if not results:
         return
 
