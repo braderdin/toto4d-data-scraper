@@ -1,12 +1,12 @@
 {
-    "formula_id": "18_dual_window_bayesian_momentum",
-    "formula_name": "Dual-Window Bayesian Momentum",
+    "formula_id": "36_tuned_dynamic_ema_gate",
+    "formula_name": "Tuned Dynamic Exponential Decay Gate",
     "generated_at": "2026-08-31 23:59:03",
     "last_draw_date": "30/08/2026",
     "last_draw_no": "6178-26",
-    "confidence_tier": "LOW (RM11)",
-    "entropy": 9.1809,
-    "budget_total_rm": 11,
+    "mode": "DEFENSIVE (RM10)",
+    "entropy": 9.1837,
+    "budget_total_rm": 10,
     "total_historical_draws_used": 165,
     "recommendations": [
         {
@@ -17,13 +17,13 @@
         },
         {
             "rank": 2,
-            "number": "1982",
+            "number": "1105",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 3,
-            "number": "1902",
+            "number": "1982",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
@@ -35,25 +35,19 @@
         },
         {
             "rank": 5,
-            "number": "0909",
-            "bet_direct_rm": 0,
-            "bet_ibox_rm": 1
-        },
-        {
-            "rank": 6,
-            "number": "1991",
-            "bet_direct_rm": 0,
-            "bet_ibox_rm": 1
-        },
-        {
-            "rank": 7,
             "number": "0202",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
-            "rank": 8,
-            "number": "0505",
+            "rank": 6,
+            "number": "0909",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 7,
+            "number": "1199",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         }
