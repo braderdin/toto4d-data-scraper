@@ -1,0 +1,69 @@
+{
+    "formula_id": "14_kalman_position_velocity",
+    "formula_name": "Kalman Position Velocity Tracking",
+    "target_date": "29/08/2026",
+    "draw_no": "6177-26",
+    "budget_total_rm": 13,
+    "recommendations": [
+        {
+            "rank": 1,
+            "number": "3691",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 2,
+            "number": "3681",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 3,
+            "number": "4691",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 4,
+            "number": "3692",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 5,
+            "number": "3791",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 6,
+            "number": "4681",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 7,
+            "number": "3682",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 8,
+            "number": "3781",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 9,
+            "number": "3591",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 10,
+            "number": "3690",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        }
+    ]
+}

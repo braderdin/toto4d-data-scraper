@@ -1,0 +1,29 @@
+{
+    "formula_id": "25_streak_adaptive_volatility_gate",
+    "formula_name": "Streak-Adaptive Volatility Band",
+    "target_date": "29/08/2026",
+    "draw_no": "6177-26",
+    "confidence_tier": "CIRCUIT-BREAKER (RM6) [Streak Kalah=13]",
+    "current_loss_streak": 13,
+    "budget_total_rm": 6,
+    "recommendations": [
+        {
+            "rank": 1,
+            "number": "9986",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 2,
+            "number": "9486",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 3,
+            "number": "9981",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        }
+    ]
+}

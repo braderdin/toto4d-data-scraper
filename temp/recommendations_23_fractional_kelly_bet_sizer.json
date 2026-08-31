@@ -1,0 +1,29 @@
+{
+    "formula_id": "23_fractional_kelly_bet_sizer",
+    "formula_name": "Fractional Kelly Criterion Bet Sizer",
+    "target_date": "29/08/2026",
+    "draw_no": "6177-26",
+    "confidence_tier": "KELLY-LOW (RM6)",
+    "kelly_edge": 0.0989,
+    "budget_total_rm": 6,
+    "recommendations": [
+        {
+            "rank": 1,
+            "number": "9986",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 2,
+            "number": "9486",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 3,
+            "number": "9981",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        }
+    ]
+}

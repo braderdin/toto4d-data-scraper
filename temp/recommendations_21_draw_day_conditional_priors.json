@@ -1,0 +1,83 @@
+{
+    "formula_id": "21_draw_day_conditional_priors",
+    "formula_name": "Draw-Day Conditional Priors",
+    "target_date": "29/08/2026",
+    "draw_no": "6177-26",
+    "day_label": "Sabtu",
+    "confidence_tier": "HIGH-DAY (RM18) [Sabtu]",
+    "budget_total_rm": 18,
+    "recommendations": [
+        {
+            "rank": 1,
+            "number": "9915",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 2,
+            "number": "9415",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 3,
+            "number": "0015",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 4,
+            "number": "9955",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 5,
+            "number": "7915",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 6,
+            "number": "9965",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 7,
+            "number": "9911",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 8,
+            "number": "0055",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 9,
+            "number": "9494",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 10,
+            "number": "9977",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 11,
+            "number": "1515",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 12,
+            "number": "9966",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        }
+    ]
+}

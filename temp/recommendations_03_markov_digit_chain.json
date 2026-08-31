@@ -1,0 +1,69 @@
+{
+    "formula_id": "03_markov_digit_chain",
+    "formula_name": "Markov Transition Chain",
+    "target_date": "29/08/2026",
+    "draw_no": "6177-26",
+    "budget_total_rm": 13,
+    "recommendations": [
+        {
+            "rank": 1,
+            "number": "5510",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 2,
+            "number": "9510",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 3,
+            "number": "5540",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 4,
+            "number": "9540",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 5,
+            "number": "5516",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 6,
+            "number": "9516",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 7,
+            "number": "5514",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 8,
+            "number": "5580",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 9,
+            "number": "7940",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 10,
+            "number": "5544",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        }
+    ]
+}

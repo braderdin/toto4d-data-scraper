@@ -1,0 +1,59 @@
+{
+    "formula_id": "18_dual_window_bayesian_momentum",
+    "formula_name": "Dual-Window Bayesian Momentum",
+    "target_date": "29/08/2026",
+    "draw_no": "6177-26",
+    "confidence_tier": "LOW (RM11)",
+    "entropy": 9.1767,
+    "budget_total_rm": 11,
+    "recommendations": [
+        {
+            "rank": 1,
+            "number": "1982",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 2,
+            "number": "1905",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 3,
+            "number": "1952",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 4,
+            "number": "1991",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 5,
+            "number": "1919",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 6,
+            "number": "6969",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 7,
+            "number": "0505",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 8,
+            "number": "5959",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        }
+    ]
+}

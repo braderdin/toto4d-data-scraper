@@ -1,0 +1,83 @@
+{
+    "formula_id": "24_pareto_multi_objective_engine",
+    "formula_name": "Multi-Objective Pareto Frontier Engine",
+    "target_date": "29/08/2026",
+    "draw_no": "6177-26",
+    "confidence_tier": "HIGH-PARETO (RM18)",
+    "pareto_density": 0.7309,
+    "budget_total_rm": 18,
+    "recommendations": [
+        {
+            "rank": 1,
+            "number": "4444",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 2,
+            "number": "9999",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 3,
+            "number": "1111",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 4,
+            "number": "5555",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 5,
+            "number": "0000",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 6,
+            "number": "6666",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 7,
+            "number": "9994",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 8,
+            "number": "9444",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 9,
+            "number": "9996",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 10,
+            "number": "9991",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 11,
+            "number": "9995",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 12,
+            "number": "9494",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        }
+    ]
+}
