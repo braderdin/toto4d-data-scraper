@@ -1,0 +1,44 @@
+{
+    "formula_id": "32_deep_warmup_5d_bayesian_hunter",
+    "formula_name": "Deep-Warmup Bayesian 1st-Prize Tail Transition Hunter",
+    "target_date": "30/08/2026",
+    "draw_no": "6178-26",
+    "budget_total_rm": 5,
+    "recommendations": [
+        {
+            "rank": 1,
+            "number": "88409",
+            "tail_2d": "09",
+            "tail_3d": "409",
+            "bet_rm": 1
+        },
+        {
+            "rank": 2,
+            "number": "88194",
+            "tail_2d": "94",
+            "tail_3d": "194",
+            "bet_rm": 1
+        },
+        {
+            "rank": 3,
+            "number": "51784",
+            "tail_2d": "84",
+            "tail_3d": "784",
+            "bet_rm": 1
+        },
+        {
+            "rank": 4,
+            "number": "88174",
+            "tail_2d": "74",
+            "tail_3d": "174",
+            "bet_rm": 1
+        },
+        {
+            "rank": 5,
+            "number": "88104",
+            "tail_2d": "04",
+            "tail_3d": "104",
+            "bet_rm": 1
+        }
+    ]
+}

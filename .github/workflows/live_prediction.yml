@@ -1,0 +1,67 @@
+name: Sports Toto 4D Live Prediction & Notification Pipeline
+
+on:
+  schedule:
+    # Isnin, Selasa & Khamis, jam 10:00 Pagi MYT (UTC 02:00)
+    - cron: '0 2 * * 1,2,4'
+    # Sabtu, jam 11:30 Malam MYT (UTC 15:30)
+    - cron: '30 15 * * 6'
+  workflow_dispatch: # Membolehkan trigger manual bila-bila masa dari GitHub UI
+
+permissions:
+  contents: write # Diperlukan untuk memberi kebenaran auto-commit & push ke repositori
+
+jobs:
+  run-engine:
+    name: Run Scraper, Live Engine & Telegram Bot
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: 🕷️ Step 1 - Scrape Toto 4D Results (Latest 2 Weeks)
+        run: |
+          python python_script/toto_01_scraper.py
+
+      - name: 🧠 Step 2 - Run Formula 18 (Dual-Window Bayesian Momentum)
+        run: |
+          python live_engine/18_dual_window_bayesian_momentum.py
+
+      - name: ⚙️ Step 3 - Run Formula 20 (Dynamic Regime-Switching Gate)
+        run: |
+          python live_engine/20_dynamic_regime_switching.py
+
+      - name: 📱 Step 4 - Send Telegram Notifications (2 Messages)
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python live_engine/00_telegram.py
+
+      - name: 💾 Step 5 - Auto-commit & Push Updated JSON Files
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Tambah fail data terkini dan fail cadangan formula
+          git add data/output/toto_4d_results.json live_engine/temp/*.json
+          
+          # Semak jika ada perubahan fail sebelum commit
+          if git diff --staged --quiet; then
+            echo "Tiada perubahan fail untuk dicommit."
+          else
+            git commit -m "🤖 Auto-update Toto 4D results & live predictions [$(date +'%Y-%m-%d %H:%M:%S')]"
+            git push
+          fi

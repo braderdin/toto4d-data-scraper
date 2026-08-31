@@ -1,0 +1,30 @@
+{
+    "formula_id": "34_dual_anchor_markov_bayesian_6d",
+    "formula_name": "Dual-Anchor Markov-Bayesian Beam Hunter (6D)",
+    "target_date": "30/08/2026",
+    "draw_no": "6125-26",
+    "budget_total_rm": 3,
+    "recommendations": [
+        {
+            "rank": 1,
+            "number": "115142",
+            "head_2d": "11",
+            "tail_2d": "42",
+            "bet_rm": 1
+        },
+        {
+            "rank": 2,
+            "number": "115143",
+            "head_2d": "11",
+            "tail_2d": "43",
+            "bet_rm": 1
+        },
+        {
+            "rank": 3,
+            "number": "515142",
+            "head_2d": "51",
+            "tail_2d": "42",
+            "bet_rm": 1
+        }
+    ]
+}

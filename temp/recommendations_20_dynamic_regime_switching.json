@@ -1,10 +1,10 @@
 {
     "formula_id": "20_dynamic_regime_switching",
     "formula_name": "Dynamic Regime-Switching Gate",
-    "target_date": "29/08/2026",
-    "draw_no": "6177-26",
+    "target_date": "30/08/2026",
+    "draw_no": "6178-26",
     "regime_mode": "DISTINCT-REGIME (RM11)",
-    "entropy": 9.2027,
+    "entropy": 9.2031,
     "budget_total_rm": 11,
     "recommendations": [
         {

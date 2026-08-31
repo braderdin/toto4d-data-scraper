@@ -1,0 +1,44 @@
+{
+    "formula_id": "31_diversified_tail_portfolio_5D",
+    "formula_name": "Diversified Tail Portfolio & Multi-Tier Bayesian 5D",
+    "target_date": "30/08/2026",
+    "draw_no": "6178-26",
+    "budget_total_rm": 5,
+    "recommendations": [
+        {
+            "rank": 1,
+            "number": "54143",
+            "tail_2d": "43",
+            "tail_3d": "143",
+            "bet_rm": 1
+        },
+        {
+            "rank": 2,
+            "number": "94409",
+            "tail_2d": "09",
+            "tail_3d": "409",
+            "bet_rm": 1
+        },
+        {
+            "rank": 3,
+            "number": "84096",
+            "tail_2d": "96",
+            "tail_3d": "096",
+            "bet_rm": 1
+        },
+        {
+            "rank": 4,
+            "number": "50697",
+            "tail_2d": "97",
+            "tail_3d": "697",
+            "bet_rm": 1
+        },
+        {
+            "rank": 5,
+            "number": "56703",
+            "tail_2d": "03",
+            "tail_3d": "703",
+            "bet_rm": 1
+        }
+    ]
+}
