@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   run-engine:
-    name: Run Scraper, Live Engine & Telegram Bot
+    name: Run Scraper, Live Engine (3 Formulas) & Telegram Bot
     runs-on: ubuntu-latest
 
     steps:
@@ -43,25 +43,29 @@ jobs:
         run: |
           python live_engine/20_dynamic_regime_switching.py
 
-      - name: 📱 Step 4 - Send Telegram Notifications (2 Messages)
+      - name: ⚡ Step 4 - Run Formula 36 (Tuned Dynamic Exponential Decay Gate)
+        run: |
+          python live_engine/36_tuned_dynamic_ema_gate.py
+
+      - name: 📱 Step 5 - Send Telegram Notifications (3 Messages)
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           python live_engine/00_telegram.py
 
-      - name: 💾 Step 5 - Auto-commit & Push Updated JSON Files
+      - name: 💾 Step 6 - Auto-commit & Push Updated JSON Files
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Tambah fail data terkini dan fail cadangan formula
+          # Tambah fail data terkini dan semua fail cadangan formula
           git add data/output/toto_4d_results.json live_engine/temp/*.json
           
           # Semak jika ada perubahan fail sebelum commit
           if git diff --staged --quiet; then
             echo "Tiada perubahan fail untuk dicommit."
           else
-            git commit -m "🤖 Auto-update Toto 4D results & live predictions [$(date +'%Y-%m-%d %H:%M:%S')]"
+            git commit -m "🤖 Auto-update Toto 4D results & live predictions (3 Formulas) [$(date +'%Y-%m-%d %H:%M:%S')]"
             git push
           fi

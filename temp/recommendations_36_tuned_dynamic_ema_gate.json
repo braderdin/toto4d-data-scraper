@@ -1,57 +1,51 @@
 {
-    "formula_id": "22_triplet_4way_asymmetric_hunter",
-    "formula_name": "Triplet / 4-Way Asymmetric Yield Hunter",
+    "formula_id": "36_tuned_dynamic_ema_gate",
+    "formula_name": "Tuned Dynamic Exponential Decay Gate",
     "target_date": "30/08/2026",
     "draw_no": "6178-26",
-    "confidence_tier": "DEFENSIVE (RM11)",
-    "dominant_power": 0.1043,
-    "budget_total_rm": 11,
+    "mode": "DEFENSIVE (RM10)",
+    "entropy": 9.1799,
+    "budget_total_rm": 10,
     "recommendations": [
         {
             "rank": 1,
-            "number": "9994",
+            "number": "1982",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 2,
-            "number": "9444",
+            "number": "1905",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 3,
-            "number": "9986",
+            "number": "1985",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 4,
-            "number": "9494",
+            "number": "1919",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
             "rank": 5,
-            "number": "9944",
+            "number": "1991",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
             "rank": 6,
-            "number": "9911",
+            "number": "8282",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
             "rank": 7,
-            "number": "9966",
-            "bet_direct_rm": 0,
-            "bet_ibox_rm": 1
-        },
-        {
-            "rank": 8,
-            "number": "9955",
+            "number": "0505",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         }

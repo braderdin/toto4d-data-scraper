@@ -5,7 +5,7 @@
 PROJECT      : TOTO 4D LIVE ENGINE & DRAW VERIFICATION
 MODULE       : 00_draw_checker.py
 DESCRIPTION  : Mengutip data cabutan terkini (1 minggu), membandingkan dengan 
-               cadangan Formula 18 & 20 di live_engine/temp/, mengira kemenangan
+               cadangan Formula 18, 20 & 36 di live_engine/temp/, mengira kemenangan
                (Direct Big & iBox Big), dan menghantar laporan ke Telegram.
 AUTHOR/USER  : braderdin
 ===============================================================================
@@ -43,6 +43,7 @@ CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 FILE_FORMULA_18 = os.path.join(TEMP_DIR, "18_dual_window_bayesian_momentum.json")
 FILE_FORMULA_20 = os.path.join(TEMP_DIR, "20_dynamic_regime_switching.json")
+FILE_FORMULA_36 = os.path.join(TEMP_DIR, "36_tuned_dynamic_ema_gate.json")
 REPORT_OUTPUT_FILE = os.path.join(TEMP_DIR, "draw_checker_report.json")
 
 BASE_URL = "https://4d4d.co/result"
@@ -286,7 +287,7 @@ def build_result_message(formula_title, payload, actual_draw, winnings, hits):
 
 def main():
     print("=" * 80)
-    print(" 🚀 MEMULAKAN SEMAKAN KEPUTUSAN CABUTAN TOTO 4D (DRAW CHECKER)")
+    print(" 🚀 MEMULAKAN SEMAKAN KEPUTUSAN CABUTAN TOTO 4D (3 FORMULA)")
     print("=" * 80)
 
     actual_draw = fetch_latest_draw(days=7)
@@ -316,6 +317,17 @@ def main():
         msg_20 = build_result_message("Formula 20: Dynamic Regime-Switching Gate", data_20, actual_draw, winnings_20, hits_20)
         send_telegram_message(msg_20)
         full_reports["evaluations"].append({"formula": "20_dynamic_regime_switching", "winnings": winnings_20, "hits": hits_20})
+        time.sleep(1.5)
+
+    # 3. Semakan Formula 36
+    if os.path.exists(FILE_FORMULA_36):
+        with open(FILE_FORMULA_36, "r", encoding="utf-8") as f:
+            data_36 = json.load(f)
+        recs_36 = data_36.get("recommendations", [])
+        winnings_36, hits_36 = evaluate_predictions(recs_36, actual_draw)
+        msg_36 = build_result_message("Formula 36: Tuned Dynamic Exponential Decay Gate", data_36, actual_draw, winnings_36, hits_36)
+        send_telegram_message(msg_36)
+        full_reports["evaluations"].append({"formula": "36_tuned_dynamic_ema_gate", "winnings": winnings_36, "hits": hits_36})
 
     # Simpan laporan semakan ke folder temp untuk kegunaan artifact
     with open(REPORT_OUTPUT_FILE, "w", encoding="utf-8") as f:

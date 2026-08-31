@@ -1,0 +1,47 @@
+{
+    "formula_id": "35_dynamic_ema_decay_gate",
+    "formula_name": "Dynamic Exponential Decay Gate",
+    "target_date": "30/08/2026",
+    "draw_no": "6178-26",
+    "mode": "DEFENSIVE (RM8)",
+    "entropy": 9.1799,
+    "budget_total_rm": 8,
+    "recommendations": [
+        {
+            "rank": 1,
+            "number": "1982",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 2,
+            "number": "1905",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 3,
+            "number": "1919",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 4,
+            "number": "1991",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 5,
+            "number": "8282",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 6,
+            "number": "0505",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        }
+    ]
+}
