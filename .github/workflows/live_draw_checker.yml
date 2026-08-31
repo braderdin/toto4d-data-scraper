@@ -1,0 +1,41 @@
+name: Sports Toto 4D Live Draw Checker & Telegram Result
+
+on:
+  schedule:
+    # 10:00 Malam MYT = 14:00 UTC pada hari Ahad, Selasa, Rabu & Sabtu
+    - cron: '0 14 * * 0,2,3,6'
+  workflow_dispatch: # Boleh dicetuskan secara manual
+
+jobs:
+  check-results:
+    name: Check Draw Results & Send Telegram Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: 🎯 Run Draw Checker (Scrape 1 Week & Verify Hits)
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python live_engine/00_draw_checker.py
+
+      - name: 📦 Upload Verification Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: draw-verification-report
+          path: live_engine/temp/
+          retention-days: 14
