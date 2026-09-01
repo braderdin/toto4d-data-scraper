@@ -1,9 +1,9 @@
 name: Toto 4D Weekly Update (7 Hari)
 
 on:
-  schedule:
+#  schedule:
     # Setiap Isnin jam 07:00 PET untu update 7 hari
-    - cron: '0 2 * * 1'
+#    - cron: '0 2 * * 1'
   workflow_dispatch:
 
 permissions:

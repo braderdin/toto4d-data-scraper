@@ -1,9 +1,9 @@
 name: Toto 4D Draw Checker (Semakan Hadiah Telegram)
 
 on:
-  schedule:
+#  schedule:
     # Berjalan jam 04:00 UTC 12:00 Tengah Hari (MYT) pada hari Ahad, Isnin, Rabu, dan Khamis.
-    - cron: '0 4 * * 0,1,3,4'
+#    - cron: '0 4 * * 0,1,3,4'
   workflow_dispatch:
 
 permissions:

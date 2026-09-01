@@ -1,12 +1,12 @@
 name: Toto 4D Auto Scraper & Telegram Report
 
 on:
-  schedule:
+#  schedule:
 # Isnin, Selasa & Khamis, jam 10:00 Pagi MYT
-  - cron: '0 2 * * 1,2,4'
+#  - cron: '0 2 * * 1,2,4'
 
 # Sabtu, jam 11:30 Malam MYT
-  - cron: '30 15 * * 6'
+#  - cron: '30 15 * * 6'
   
   workflow_dispatch:
 

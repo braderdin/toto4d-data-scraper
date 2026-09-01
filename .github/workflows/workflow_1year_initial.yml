@@ -1,9 +1,9 @@
 name: Toto 4D 1-Year Initial Scrape & Weekly Update
 
 on:
-  schedule:
+#  schedule:
     # setiap Ahun sekali (boleh di-tetapkan manually) untuk scrape 365 hari pertama
-    - cron: '0 2 1 * *'  # hari ke-1 setiap bulan, jam 02:00 PET - sebagai contoh awal
+#    - cron: '0 2 1 * *'  # hari ke-1 setiap bulan, jam 02:00 PET - sebagai contoh awal
   workflow_dispatch:
     inputs:
       run_initial:
