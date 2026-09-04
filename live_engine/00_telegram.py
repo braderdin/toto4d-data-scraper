@@ -4,8 +4,8 @@
 ===============================================================================
 PROJECT      : TOTO 4D LIVE ENGINE & NOTIFICATION PIPELINE
 MODULE       : 00_telegram.py
-DESCRIPTION  : Membaca fail JSON cadangan formula (18, 20 & 36) di live_engine/temp/
-               dan menghantar 3 notifikasi berasingan berformat kemas ke Telegram.
+DESCRIPTION  : Membaca fail JSON cadangan formula (18, 20, 36 & 37) dan menghantar
+               4 notifikasi berasingan berformat kemas dan berstruktur ke Telegram.
 AUTHOR/USER  : braderdin
 ===============================================================================
 """
@@ -22,6 +22,7 @@ from dotenv import load_dotenv
 # ==========================================
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 TEMP_DIR = os.path.join(BASE_DIR, "live_engine", "temp")
+TEMP_FORMULA_DIR = os.path.join(BASE_DIR, "temp")
 
 ENV_LOCAL = os.path.join(BASE_DIR, ".env.local")
 ENV_DEFAULT = os.path.join(BASE_DIR, ".env")
@@ -34,10 +35,11 @@ elif os.path.exists(ENV_DEFAULT):
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-# Laluan fail input JSON bagi ketiga-tiga formula
+# Laluan fail input JSON bagi keempat-empat formula
 FILE_FORMULA_18 = os.path.join(TEMP_DIR, "18_dual_window_bayesian_momentum.json")
 FILE_FORMULA_20 = os.path.join(TEMP_DIR, "20_dynamic_regime_switching.json")
 FILE_FORMULA_36 = os.path.join(TEMP_DIR, "36_tuned_dynamic_ema_gate.json")
+FILE_FORMULA_37 = os.path.join(TEMP_FORMULA_DIR, "recommendations_37_ensemble_multi_regime_ibox.json")
 
 
 def send_telegram_message(text_message):
@@ -194,9 +196,64 @@ def build_message_formula_36(data):
     return "\n".join(lines)
 
 
+def build_message_formula_37(data):
+    """Menjana format mesej khas untuk Formula 37 (Multi-Regime Ensemble & Asymmetric iBox Master)."""
+    formula_name = data.get("formula_name", "Multi-Regime Ensemble & Asymmetric iBox Master")
+    target_date = data.get("target_date", "N/A")
+    draw_no = data.get("draw_no", "N/A")
+    budget = data.get("budget_rm", 20.0)
+    meta = data.get("meta_signals", {})
+    regime = meta.get("regime_status", "BALANCED")
+    twin_ratio = meta.get("twin_ratio", 0.0)
+    gen_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    recs = data.get("recommendations", [])
+
+    lines = [
+        "🚀 <b>SPORTS TOTO 4D — ENSEMBLE MASTER (F37)</b> 🚀",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        f"🏆 <b>Formula 37: {formula_name}</b>",
+        f"📅 <b>Rujukan Sesi:</b> <code>Draw #{draw_no} ({target_date})</code>",
+        f"🌐 <b>Rejim Pasaran:</b> <code>{regime}</code> (Twin: <code>{twin_ratio*100:.1f}%</code>)",
+        f"💰 <b>Cadangan Modal:</b> <b>RM {budget:.2f}</b> (Tepat 20 Nombor iBox RM1)",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "🎯 <b>CADANGAN 20 NOMBOR (SEMUA iBOX RM 1.00):</b>",
+        "",
+        "💎 <b>4-Way Triplet (AAAB) — Potensi RM625:</b>"
+    ]
+
+    p4 = [r for r in recs if r.get("permutation") == 4]
+    p6 = [r for r in recs if r.get("permutation") == 6]
+    p12 = [r for r in recs if r.get("permutation") == 12]
+    p24 = [r for r in recs if r.get("permutation") == 24]
+
+    for item in p4:
+        lines.append(f"  <b>#{item['rank']:02d}</b>  👉  <code><b>{item['number']}</b></code>  │  iBox: <b>RM 1.00</b>")
+
+    lines.append("")
+    lines.append("🔥 <b>6-Way Dwi-Kembar (AABB) — Potensi RM417:</b>")
+    for item in p6:
+        lines.append(f"  <b>#{item['rank']:02d}</b>  👉  <code><b>{item['number']}</b></code>  │  iBox: <b>RM 1.00</b>")
+
+    lines.append("")
+    lines.append("⚡ <b>12-Way 1-Pasang (AABC) — Potensi RM209:</b>")
+    for item in p12:
+        lines.append(f"  <b>#{item['rank']:02d}</b>  👉  <code><b>{item['number']}</b></code>  │  iBox: <b>RM 1.00</b>")
+
+    lines.append("")
+    lines.append("🛡️ <b>24-Way Berbeza Penuh (ABCD) — Liputan Varians:</b>")
+    for item in p24:
+        lines.append(f"  <b>#{item['rank']:02d}</b>  👉  <code><b>{item['number']}</b></code>  │  iBox: <b>RM 1.00</b>")
+
+    lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    lines.append(f"⏰ <i>Dijana pada: {gen_time}</i>")
+    lines.append("⚠️ <i>Sila kawal risiko & bertaruh secara berhemah.</i>")
+
+    return "\n".join(lines)
+
+
 def process_and_send():
     print("=" * 80)
-    print(" 🚀 MEMULAKAN PENGHANTARAN NOTIFIKASI TELEGRAM (LIVE ENGINE - 3 FORMULA)")
+    print(" 🚀 MEMULAKAN PENGHANTARAN NOTIFIKASI TELEGRAM (LIVE ENGINE - 4 FORMULA)")
     print("=" * 80)
 
     # 1. Proses Formula 18
@@ -242,8 +299,23 @@ def process_and_send():
     else:
         print(f"[-] Fail tidak dijumpai: {FILE_FORMULA_36}")
 
+    time.sleep(1.5)
+
+    # 4. Proses Formula 37 (Ensemble Master)
+    if os.path.exists(FILE_FORMULA_37):
+        try:
+            with open(FILE_FORMULA_37, "r", encoding="utf-8") as f:
+                data_37 = json.load(f)
+            msg_37 = build_message_formula_37(data_37)
+            print("[+] Menghantar Mesej 4 (Formula 37: Multi-Regime Ensemble & Asymmetric iBox Master)...")
+            send_telegram_message(msg_37)
+        except Exception as e:
+            print(f"[-] Ralat memproses fail Formula 37: {e}")
+    else:
+        print(f"[-] Fail tidak dijumpai: {FILE_FORMULA_37}")
+
     print("=" * 80)
-    print(" ✨ Selesai penghantaran notifikasi 3 formula!")
+    print(" ✨ Selesai penghantaran notifikasi 4 formula!")
     print("=" * 80)
 
 

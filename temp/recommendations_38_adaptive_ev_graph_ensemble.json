@@ -1,0 +1,180 @@
+{
+    "formula_id": "38_adaptive_ev_graph_ensemble",
+    "formula_name": "Full-Graph Pairwise Co-occurrence & Direct EV Ensemble",
+    "target_date": "02/09/2026",
+    "draw_no": "6180-26",
+    "meta_signals": {
+        "twin_ratio": 0.502,
+        "entropy": 9.17,
+        "total_ev_projected": 1.7072
+    },
+    "budget_rm": 20.0,
+    "quota_breakdown": {
+        "perm_4": 4,
+        "perm_6": 7,
+        "perm_12": 6,
+        "perm_24": 3
+    },
+    "recommendations": [
+        {
+            "number": "1181",
+            "permutation": 4,
+            "ev_score": 0.1946,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 1
+        },
+        {
+            "number": "9989",
+            "permutation": 4,
+            "ev_score": 0.1607,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 2
+        },
+        {
+            "number": "4484",
+            "permutation": 4,
+            "ev_score": 0.124,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 3
+        },
+        {
+            "number": "1888",
+            "permutation": 4,
+            "ev_score": 0.1138,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 4
+        },
+        {
+            "number": "1188",
+            "permutation": 6,
+            "ev_score": 0.1598,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 5
+        },
+        {
+            "number": "4884",
+            "permutation": 6,
+            "ev_score": 0.1278,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 6
+        },
+        {
+            "number": "8989",
+            "permutation": 6,
+            "ev_score": 0.1266,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 7
+        },
+        {
+            "number": "1919",
+            "permutation": 6,
+            "ev_score": 0.1266,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 8
+        },
+        {
+            "number": "1155",
+            "permutation": 6,
+            "ev_score": 0.1091,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 9
+        },
+        {
+            "number": "9955",
+            "permutation": 6,
+            "ev_score": 0.0822,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 10
+        },
+        {
+            "number": "1212",
+            "permutation": 6,
+            "ev_score": 0.0803,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 11
+        },
+        {
+            "number": "1989",
+            "permutation": 12,
+            "ev_score": 0.0672,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 12
+        },
+        {
+            "number": "1184",
+            "permutation": 12,
+            "ev_score": 0.0632,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 13
+        },
+        {
+            "number": "1189",
+            "permutation": 12,
+            "ev_score": 0.061,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 14
+        },
+        {
+            "number": "4955",
+            "permutation": 12,
+            "ev_score": 0.0215,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 15
+        },
+        {
+            "number": "4255",
+            "permutation": 12,
+            "ev_score": 0.0185,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 16
+        },
+        {
+            "number": "8552",
+            "permutation": 12,
+            "ev_score": 0.0185,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 17
+        },
+        {
+            "number": "1984",
+            "permutation": 24,
+            "ev_score": 0.0183,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 18
+        },
+        {
+            "number": "1985",
+            "permutation": 24,
+            "ev_score": 0.0179,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 19
+        },
+        {
+            "number": "1485",
+            "permutation": 24,
+            "ev_score": 0.0156,
+            "bet_type": "iBox",
+            "bet_amount_rm": 1.0,
+            "rank": 20
+        }
+    ]
+}
