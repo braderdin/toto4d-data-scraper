@@ -4,8 +4,8 @@
 ===============================================================================
 PROJECT      : TOTO 4D LIVE ENGINE & NOTIFICATION PIPELINE
 MODULE       : 00_telegram.py
-DESCRIPTION  : Membaca fail JSON cadangan formula (18, 20, 36 & 37) dan menghantar
-               4 notifikasi berasingan berformat kemas dan berstruktur ke Telegram.
+DESCRIPTION  : Membaca fail JSON cadangan formula (18, 20, 36, 37 & 39) dan menghantar
+               5 notifikasi berasingan berformat kemas dan berstruktur ke Telegram.
 AUTHOR/USER  : braderdin
 ===============================================================================
 """
@@ -35,11 +35,12 @@ elif os.path.exists(ENV_DEFAULT):
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-# Laluan fail input JSON bagi keempat-empat formula
+# Laluan fail input JSON bagi kelima-lima formula
 FILE_FORMULA_18 = os.path.join(TEMP_DIR, "18_dual_window_bayesian_momentum.json")
 FILE_FORMULA_20 = os.path.join(TEMP_DIR, "20_dynamic_regime_switching.json")
 FILE_FORMULA_36 = os.path.join(TEMP_DIR, "36_tuned_dynamic_ema_gate.json")
 FILE_FORMULA_37 = os.path.join(TEMP_FORMULA_DIR, "recommendations_37_ensemble_multi_regime_ibox.json")
+FILE_FORMULA_39 = os.path.join(TEMP_FORMULA_DIR, "recommendations_39_ensemble_hybrid_direct_ibox.json")
 
 
 def send_telegram_message(text_message):
@@ -251,9 +252,75 @@ def build_message_formula_37(data):
     return "\n".join(lines)
 
 
+def build_message_formula_39(data):
+    """Menjana format mesej eksklusif untuk Formula 39 (Hybrid Direct & iBox Portfolio RM25)."""
+    formula_name = data.get("formula_name", "Formula 39 - Ensemble Hybrid Direct & iBox Master")
+    target_date = data.get("target_date", "N/A")
+    draw_no = data.get("draw_no", "N/A")
+    budget = data.get("budget_rm", 25.0)
+    meta = data.get("meta_signals", {})
+    regime = meta.get("regime_status", "EXPONENTIAL-BALANCED")
+    twin_ratio = meta.get("twin_ratio", 0.0)
+    gen_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    recs = data.get("recommendations", [])
+
+    direct_list = [r for r in recs if r.get("bet_type") == "Direct"]
+    ibox_list = [r for r in recs if r.get("bet_type") == "iBox"]
+
+    lines = [
+        "👑 <b>SPORTS TOTO 4D — HYBRID PORTFOLIO MASTER (F39)</b> 👑",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        f"🏆 <b>Formula 39:</b> <code>{formula_name}</code>",
+        f"📅 <b>Rujukan Sesi:</b> <code>Draw #{draw_no} ({target_date})</code>",
+        f"🌐 <b>Rejim Pasaran:</b> <code>{regime}</code> (Twin: <code>{twin_ratio*100:.1f}%</code>)",
+        f"💰 <b>Cadangan Modal:</b> <b>RM {budget:.2f}</b> (4 Direct + 21 iBox)",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "💥 <b>4 NOMBOR DIRECT BIG (RM 1.00) — JACKPOT HUNT:</b>",
+    ]
+
+    for item in direct_list:
+        cat_short = item.get("category", "").split("(")[0].strip()
+        lines.append(f"  <b>#{item['rank']:02d}</b>  🎯  <code><b>{item['number']}</b></code>  │  Direct <b>RM 1.00</b> ({cat_short})")
+
+    lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    lines.append("🛡️ <b>21 NOMBOR BIG iBOX (RM 1.00) — RISK ABSORBER:</b>")
+
+    # Pecahan iBox mengikut corak
+    ibox_p4 = [r for r in ibox_list if r.get("permutation") == 4]
+    ibox_p6 = [r for r in ibox_list if r.get("permutation") == 6]
+    ibox_p12 = [r for r in ibox_list if r.get("permutation") == 12]
+    ibox_p24 = [r for r in ibox_list if r.get("permutation") == 24]
+
+    lines.append("")
+    lines.append("💎 <b>4-Way Triplet (7x iBox RM1 — Potensi RM625):</b>")
+    for item in ibox_p4:
+        lines.append(f"  <b>#{item['rank']:02d}</b>  👉  <code><b>{item['number']}</b></code>  │  iBox <b>RM 1.00</b>")
+
+    lines.append("")
+    lines.append("🔥 <b>6-Way Dwi-Kembar (10x iBox RM1 — Potensi RM417):</b>")
+    for item in ibox_p6:
+        lines.append(f"  <b>#{item['rank']:02d}</b>  👉  <code><b>{item['number']}</b></code>  │  iBox <b>RM 1.00</b>")
+
+    lines.append("")
+    lines.append("⚡ <b>12-Way 1-Pasang (2x iBox RM1 — Potensi RM209):</b>")
+    for item in ibox_p12:
+        lines.append(f"  <b>#{item['rank']:02d}</b>  👉  <code><b>{item['number']}</b></code>  │  iBox <b>RM 1.00</b>")
+
+    lines.append("")
+    lines.append("🎲 <b>24-Way Berbeza (2x iBox RM1 — Spektrum Penuh):</b>")
+    for item in ibox_p24:
+        lines.append(f"  <b>#{item['rank']:02d}</b>  👉  <code><b>{item['number']}</b></code>  │  iBox <b>RM 1.00</b>")
+
+    lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    lines.append(f"⏰ <i>Dijana pada: {gen_time}</i>")
+    lines.append("⚠️ <i>Sila kawal modal & bertaruh secara berhemah.</i>")
+
+    return "\n".join(lines)
+
+
 def process_and_send():
     print("=" * 80)
-    print(" 🚀 MEMULAKAN PENGHANTARAN NOTIFIKASI TELEGRAM (LIVE ENGINE - 4 FORMULA)")
+    print(" 🚀 MEMULAKAN PENGHANTARAN NOTIFIKASI TELEGRAM (LIVE ENGINE - 5 FORMULA)")
     print("=" * 80)
 
     # 1. Proses Formula 18
@@ -314,8 +381,23 @@ def process_and_send():
     else:
         print(f"[-] Fail tidak dijumpai: {FILE_FORMULA_37}")
 
+    time.sleep(1.5)
+
+    # 5. Proses Formula 39 (Hybrid Direct & iBox Master)
+    if os.path.exists(FILE_FORMULA_39):
+        try:
+            with open(FILE_FORMULA_39, "r", encoding="utf-8") as f:
+                data_39 = json.load(f)
+            msg_39 = build_message_formula_39(data_39)
+            print("[+] Menghantar Mesej 5 (Formula 39: Ensemble Hybrid Direct & iBox Master)...")
+            send_telegram_message(msg_39)
+        except Exception as e:
+            print(f"[-] Ralat memproses fail Formula 39: {e}")
+    else:
+        print(f"[-] Fail tidak dijumpai: {FILE_FORMULA_39}")
+
     print("=" * 80)
-    print(" ✨ Selesai penghantaran notifikasi 4 formula!")
+    print(" ✨ Selesai penghantaran notifikasi 5 formula!")
     print("=" * 80)
 
 
