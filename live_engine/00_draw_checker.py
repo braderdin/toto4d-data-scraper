@@ -5,8 +5,8 @@
 PROJECT      : TOTO 4D LIVE ENGINE & DRAW VERIFICATION
 MODULE       : 00_draw_checker.py
 DESCRIPTION  : Mengutip data cabutan terkini (1 minggu), membandingkan dengan 
-               cadangan Formula 18, 20, 36 & 37, mengira kemenangan (Direct Big & iBox Big),
-               dan menghantar laporan berasingan ke Telegram.
+               cadangan Formula 18, 20, 36, 37 & 39, mengira kemenangan 
+               (Direct Big & iBox Big), dan menghantar laporan berasingan ke Telegram.
 AUTHOR/USER  : braderdin
 ===============================================================================
 """
@@ -47,6 +47,7 @@ FILE_FORMULA_18 = os.path.join(TEMP_DIR, "18_dual_window_bayesian_momentum.json"
 FILE_FORMULA_20 = os.path.join(TEMP_DIR, "20_dynamic_regime_switching.json")
 FILE_FORMULA_36 = os.path.join(TEMP_DIR, "36_tuned_dynamic_ema_gate.json")
 FILE_FORMULA_37 = os.path.join(ROOT_TEMP_DIR, "recommendations_37_ensemble_multi_regime_ibox.json")
+FILE_FORMULA_39 = os.path.join(ROOT_TEMP_DIR, "recommendations_39_ensemble_hybrid_direct_ibox.json")
 REPORT_OUTPUT_FILE = os.path.join(TEMP_DIR, "draw_checker_report.json")
 
 BASE_URL = "https://4d4d.co/result"
@@ -160,7 +161,7 @@ def fetch_latest_draw(days=7):
 
 
 def evaluate_predictions(recs, actual_draw):
-    """Menyemak kenaan dan mengira jumlah kemenangan (Menyokong F18, F20, F36 & F37)."""
+    """Menyemak kenaan dan mengira jumlah kemenangan (Menyokong F18, F20, F36, F37 & F39)."""
     p1 = str(actual_draw.get('1st_prize', '')).strip()
     p2 = str(actual_draw.get('2nd_prize', '')).strip()
     p3 = str(actual_draw.get('3rd_prize', '')).strip()
@@ -176,61 +177,63 @@ def evaluate_predictions(recs, actual_draw):
         bet_direct = item.get('bet_direct_rm', 0)
         bet_ibox = item.get('bet_ibox_rm', 0)
 
-        # Keserasian khusus untuk Formula 37
+        # Keserasian fleksibel untuk Formula 37 & Formula 39
         if item.get('bet_type') == 'iBox' and bet_ibox == 0:
             bet_ibox = item.get('bet_amount_rm', 1.0)
+        elif item.get('bet_type') == 'Direct' and bet_direct == 0:
+            bet_direct = item.get('bet_amount_rm', 1.0)
 
         perms = item.get('permutation') or get_permutation_count(num)
         sorted_num = "".join(sorted(num))
 
-        # 1. Semakan Direct Big
+        # 1. Semakan Hadiah Tepat (Direct Big)
         if bet_direct > 0:
             if num == p1:
                 win = PAYOUT_DIRECT_BIG['1st'] * bet_direct
                 total_winnings += win
-                hit_logs.append({"type": "Direct 1st Prize", "rank": rank, "number": num, "win_rm": win})
+                hit_logs.append({"type": "Direct 1st Prize", "rank": rank, "number": num, "win_rm": win, "bet_kind": "Direct"})
             elif num == p2:
                 win = PAYOUT_DIRECT_BIG['2nd'] * bet_direct
                 total_winnings += win
-                hit_logs.append({"type": "Direct 2nd Prize", "rank": rank, "number": num, "win_rm": win})
+                hit_logs.append({"type": "Direct 2nd Prize", "rank": rank, "number": num, "win_rm": win, "bet_kind": "Direct"})
             elif num == p3:
                 win = PAYOUT_DIRECT_BIG['3rd'] * bet_direct
                 total_winnings += win
-                hit_logs.append({"type": "Direct 3rd Prize", "rank": rank, "number": num, "win_rm": win})
+                hit_logs.append({"type": "Direct 3rd Prize", "rank": rank, "number": num, "win_rm": win, "bet_kind": "Direct"})
             elif num in specials:
                 win = PAYOUT_DIRECT_BIG['special'] * bet_direct
                 total_winnings += win
-                hit_logs.append({"type": "Direct Special", "rank": rank, "number": num, "win_rm": win})
+                hit_logs.append({"type": f"Direct Special ({num})", "rank": rank, "number": num, "win_rm": win, "bet_kind": "Direct"})
             elif num in consolations:
                 win = PAYOUT_DIRECT_BIG['consolation'] * bet_direct
                 total_winnings += win
-                hit_logs.append({"type": "Direct Consolation", "rank": rank, "number": num, "win_rm": win})
+                hit_logs.append({"type": f"Direct Consolation ({num})", "rank": rank, "number": num, "win_rm": win, "bet_kind": "Direct"})
 
-        # 2. Semakan iBox Big
+        # 2. Semakan Hadiah Permutasi (iBox Big)
         if bet_ibox > 0 and perms in PAYOUT_IBOX_BIG:
             rates = PAYOUT_IBOX_BIG[perms]
             if "".join(sorted(p1)) == sorted_num:
                 win = rates['1st'] * bet_ibox
                 total_winnings += win
-                hit_logs.append({"type": f"iBox 1st Prize ({p1})", "rank": rank, "number": num, "win_rm": win})
+                hit_logs.append({"type": f"iBox 1st Prize ({p1})", "rank": rank, "number": num, "win_rm": win, "bet_kind": "iBox"})
             if "".join(sorted(p2)) == sorted_num:
                 win = rates['2nd'] * bet_ibox
                 total_winnings += win
-                hit_logs.append({"type": f"iBox 2nd Prize ({p2})", "rank": rank, "number": num, "win_rm": win})
+                hit_logs.append({"type": f"iBox 2nd Prize ({p2})", "rank": rank, "number": num, "win_rm": win, "bet_kind": "iBox"})
             if "".join(sorted(p3)) == sorted_num:
                 win = rates['3rd'] * bet_ibox
                 total_winnings += win
-                hit_logs.append({"type": f"iBox 3rd Prize ({p3})", "rank": rank, "number": num, "win_rm": win})
+                hit_logs.append({"type": f"iBox 3rd Prize ({p3})", "rank": rank, "number": num, "win_rm": win, "bet_kind": "iBox"})
             for sp in specials:
                 if "".join(sorted(sp)) == sorted_num:
                     win = rates['special'] * bet_ibox
                     total_winnings += win
-                    hit_logs.append({"type": f"iBox Special ({sp})", "rank": rank, "number": num, "win_rm": win})
+                    hit_logs.append({"type": f"iBox Special ({sp})", "rank": rank, "number": num, "win_rm": win, "bet_kind": "iBox"})
             for cs in consolations:
                 if "".join(sorted(cs)) == sorted_num:
                     win = rates['consolation'] * bet_ibox
                     total_winnings += win
-                    hit_logs.append({"type": f"iBox Consolation ({cs})", "rank": rank, "number": num, "win_rm": win})
+                    hit_logs.append({"type": f"iBox Consolation ({cs})", "rank": rank, "number": num, "win_rm": win, "bet_kind": "iBox"})
 
     return total_winnings, hit_logs
 
@@ -336,9 +339,69 @@ def build_result_message_formula_37(payload, actual_draw, winnings, hits):
     return "\n".join(lines)
 
 
+def build_result_message_formula_39(payload, actual_draw, winnings, hits):
+    """Menjana format laporan semakan eksklusif untuk Formula 39 (Hybrid Direct & iBox Portfolio RM25)."""
+    total_cost = payload.get("budget_rm", payload.get("budget_total_rm", 25.0))
+    net_profit = winnings - total_cost
+    draw_no = actual_draw.get("draw_no", "N/A")
+    draw_date = actual_draw.get("date", "N/A")
+    meta = payload.get("meta_signals", {})
+    regime = meta.get("regime_status", "EXPONENTIAL-BALANCED")
+    twin_ratio = meta.get("twin_ratio", 0.0)
+
+    had_direct = any("Direct" in h.get("type", "") for h in hits)
+
+    if winnings > 0:
+        if had_direct:
+            status_icon = "💥🎯 <b>JACKPOT DIRECT HIT! TAHNIAH!</b>"
+        else:
+            status_icon = "🎉💎 <b>MENANG iBOX / PROFIT!</b>"
+        profit_text = f"<b>+RM {net_profit:,.2f}</b>"
+    else:
+        status_icon = "💤🌧️ <b>TIADA KENAAN (LOSS)</b>"
+        profit_text = f"<b>-RM {abs(net_profit):,.2f}</b>"
+
+    lines = [
+        "👑 <b>SPORTS TOTO 4D — SEMAKAN LIVE FORMULA 39</b> 👑",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "🏆 <b>Hybrid Portfolio Master (Direct & iBox RM25)</b>",
+        f"📅 <b>Keputusan Rasmi:</b> <code>Draw #{draw_no} ({draw_date})</code>",
+        f"🥇 <b>1st:</b> <code>{actual_draw.get('1st_prize')}</code> │ 🥈 <b>2nd:</b> <code>{actual_draw.get('2nd_prize')}</code> │ 🥉 <b>3rd:</b> <code>{actual_draw.get('3rd_prize')}</code>",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        f"📌 <b>Status Keputusan:</b> {status_icon}",
+        f"🌐 <b>Rejim Pasaran:</b> <code>{regime}</code> (Twin: <code>{twin_ratio*100:.1f}%</code>)",
+        f"💵 <b>Modal Taruhan:</b> <code>RM {total_cost:.2f}</code> (4 Direct + 21 iBox)",
+        f"🎁 <b>Jumlah Pulangan:</b> <b>RM {winnings:,.2f}</b>",
+        f"📈 <b>Untung / Rugi Bersih:</b> {profit_text}",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+    ]
+
+    if hits:
+        direct_hits = [h for h in hits if "Direct" in h.get("type", "")]
+        ibox_hits = [h for h in hits if "Direct" not in h.get("type", "")]
+
+        if direct_hits:
+            lines.append("💥 <b>PERINCIAN KENAAN DIRECT BIG:</b>")
+            for h in direct_hits:
+                lines.append(f"  🎯 <b>Rank #{h['rank']:02d}</b> (<code>{h['number']}</code>) ➔ <b>{h['type']}</b> (+RM {h['win_rm']:,.2f})")
+            if ibox_hits:
+                lines.append("")
+
+        if ibox_hits:
+            lines.append("🛡️ <b>PERINCIAN KENAAN iBOX BIG:</b>")
+            for h in ibox_hits:
+                lines.append(f"  ✨ <b>Rank #{h['rank']:02d}</b> (<code>{h['number']}</code>) ➔ <b>{h['type']}</b> (+RM {h['win_rm']:,.2f})")
+    else:
+        lines.append("<i>Tiada kenaan bagi 25 nombor cadangan Formula 39 pada cabutan ini.</i>")
+
+    lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    lines.append(f"⏰ <i>Disemak pada: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</i>")
+    return "\n".join(lines)
+
+
 def main():
     print("=" * 80)
-    print(" 🚀 MEMULAKAN SEMAKAN KEPUTUSAN CABUTAN TOTO 4D (4 FORMULA)")
+    print(" 🚀 MEMULAKAN SEMAKAN KEPUTUSAN CABUTAN TOTO 4D (5 FORMULA)")
     print("=" * 80)
 
     actual_draw = fetch_latest_draw(days=7)
@@ -396,10 +459,29 @@ def main():
         msg_37 = build_result_message_formula_37(data_37, actual_draw, winnings_37, hits_37)
         send_telegram_message(msg_37)
         full_reports["evaluations"].append({"formula": "37_ensemble_multi_regime_ibox", "winnings": winnings_37, "hits": hits_37})
+        time.sleep(1.5)
     else:
         print(f"[-] Fail Formula 37 tidak dijumpai di: {file_37_target}")
 
-    # Simpan laporan semakan ke folder temp untuk kegunaan artifact
+    # 5. Semakan Formula 39 (Hybrid Direct & iBox Master)
+    file_39_target = FILE_FORMULA_39
+    if not os.path.exists(file_39_target):
+        alt_39 = os.path.join(TEMP_DIR, "recommendations_39_ensemble_hybrid_direct_ibox.json")
+        if os.path.exists(alt_39):
+            file_39_target = alt_39
+
+    if os.path.exists(file_39_target):
+        with open(file_39_target, "r", encoding="utf-8") as f:
+            data_39 = json.load(f)
+        recs_39 = data_39.get("recommendations", [])
+        winnings_39, hits_39 = evaluate_predictions(recs_39, actual_draw)
+        msg_39 = build_result_message_formula_39(data_39, actual_draw, winnings_39, hits_39)
+        send_telegram_message(msg_39)
+        full_reports["evaluations"].append({"formula": "39_ensemble_hybrid_direct_ibox", "winnings": winnings_39, "hits": hits_39})
+    else:
+        print(f"[-] Fail Formula 39 tidak dijumpai di: {file_39_target}")
+
+    # Simpan keseluruhan ringkasan laporan ke fail JSON untuk kegunaan artifact
     with open(REPORT_OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(full_reports, f, indent=4, ensure_ascii=False)
 
