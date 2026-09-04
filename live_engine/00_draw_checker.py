@@ -5,8 +5,8 @@
 PROJECT      : TOTO 4D LIVE ENGINE & DRAW VERIFICATION
 MODULE       : 00_draw_checker.py
 DESCRIPTION  : Mengutip data cabutan terkini (1 minggu), membandingkan dengan 
-               cadangan Formula 18, 20 & 36 di live_engine/temp/, mengira kemenangan
-               (Direct Big & iBox Big), dan menghantar laporan ke Telegram.
+               cadangan Formula 18, 20, 36 & 37, mengira kemenangan (Direct Big & iBox Big),
+               dan menghantar laporan berasingan ke Telegram.
 AUTHOR/USER  : braderdin
 ===============================================================================
 """
@@ -28,7 +28,9 @@ from dotenv import load_dotenv
 # ==========================================
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 TEMP_DIR = os.path.join(BASE_DIR, "live_engine", "temp")
+ROOT_TEMP_DIR = os.path.join(BASE_DIR, "temp")
 os.makedirs(TEMP_DIR, exist_ok=True)
+os.makedirs(ROOT_TEMP_DIR, exist_ok=True)
 
 ENV_LOCAL = os.path.join(BASE_DIR, ".env.local")
 ENV_DEFAULT = os.path.join(BASE_DIR, ".env")
@@ -44,6 +46,7 @@ CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 FILE_FORMULA_18 = os.path.join(TEMP_DIR, "18_dual_window_bayesian_momentum.json")
 FILE_FORMULA_20 = os.path.join(TEMP_DIR, "20_dynamic_regime_switching.json")
 FILE_FORMULA_36 = os.path.join(TEMP_DIR, "36_tuned_dynamic_ema_gate.json")
+FILE_FORMULA_37 = os.path.join(ROOT_TEMP_DIR, "recommendations_37_ensemble_multi_regime_ibox.json")
 REPORT_OUTPUT_FILE = os.path.join(TEMP_DIR, "draw_checker_report.json")
 
 BASE_URL = "https://4d4d.co/result"
@@ -157,7 +160,7 @@ def fetch_latest_draw(days=7):
 
 
 def evaluate_predictions(recs, actual_draw):
-    """Menyemak kenaan dan mengira jumlah kemenangan."""
+    """Menyemak kenaan dan mengira jumlah kemenangan (Menyokong F18, F20, F36 & F37)."""
     p1 = str(actual_draw.get('1st_prize', '')).strip()
     p2 = str(actual_draw.get('2nd_prize', '')).strip()
     p3 = str(actual_draw.get('3rd_prize', '')).strip()
@@ -172,7 +175,12 @@ def evaluate_predictions(recs, actual_draw):
         num = str(item.get('number', '')).strip()
         bet_direct = item.get('bet_direct_rm', 0)
         bet_ibox = item.get('bet_ibox_rm', 0)
-        perms = get_permutation_count(num)
+
+        # Keserasian khusus untuk Formula 37
+        if item.get('bet_type') == 'iBox' and bet_ibox == 0:
+            bet_ibox = item.get('bet_amount_rm', 1.0)
+
+        perms = item.get('permutation') or get_permutation_count(num)
         sorted_num = "".join(sorted(num))
 
         # 1. Semakan Direct Big
@@ -198,7 +206,7 @@ def evaluate_predictions(recs, actual_draw):
                 total_winnings += win
                 hit_logs.append({"type": "Direct Consolation", "rank": rank, "number": num, "win_rm": win})
 
-        # 2. Semakan iBox Big (Gunakan jadual tepat mengikut permutasi)
+        # 2. Semakan iBox Big
         if bet_ibox > 0 and perms in PAYOUT_IBOX_BIG:
             rates = PAYOUT_IBOX_BIG[perms]
             if "".join(sorted(p1)) == sorted_num:
@@ -285,9 +293,52 @@ def build_result_message(formula_title, payload, actual_draw, winnings, hits):
     return "\n".join(lines)
 
 
+def build_result_message_formula_37(payload, actual_draw, winnings, hits):
+    """Menjana laporan semakan bertema khas untuk Formula 37 Ensemble Master."""
+    total_cost = payload.get("budget_rm", payload.get("budget_total_rm", 20.0))
+    net_profit = winnings - total_cost
+    draw_no = actual_draw.get("draw_no", "N/A")
+    draw_date = actual_draw.get("date", "N/A")
+    meta = payload.get("meta_signals", {})
+    regime = meta.get("regime_status", "EXPONENTIAL-BALANCED")
+    
+    if winnings > 0:
+        status_icon = "🎉💎 <b>MENANG / PROFIT! TAHNIAH!</b>"
+        profit_text = f"<b>+RM {net_profit:,.2f}</b>"
+    else:
+        status_icon = "💤🌧️ <b>TIADA KENAAN (LOSS)</b>"
+        profit_text = f"<b>-RM {abs(net_profit):,.2f}</b>"
+
+    lines = [
+        "🏆 <b>SPORTS TOTO 4D — SEMAKAN LIVE FORMULA 37</b> 🏆",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "🚀 <b>Ensemble Master (Multi-Regime & Asymmetric iBox V2)</b>",
+        f"📅 <b>Keputusan Rasmi:</b> <code>Draw #{draw_no} ({draw_date})</code>",
+        f"🥇 <b>1st:</b> <code>{actual_draw.get('1st_prize')}</code> │ 🥈 <b>2nd:</b> <code>{actual_draw.get('2nd_prize')}</code> │ 🥉 <b>3rd:</b> <code>{actual_draw.get('3rd_prize')}</code>",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        f"📌 <b>Status Keputusan:</b> {status_icon}",
+        f"🌐 <b>Rejim Pasaran:</b> <code>{regime}</code>",
+        f"💵 <b>Modal Taruhan:</b> <code>RM {total_cost:.2f}</code> (20 Nombor iBox RM1)",
+        f"🎁 <b>Jumlah Pulangan:</b> <b>RM {winnings:.2f}</b>",
+        f"📈 <b>Untung / Rugi Bersih:</b> {profit_text}",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+    ]
+
+    if hits:
+        lines.append("🎯 <b>PERINCIAN KENAAN iBOX RASMI:</b>")
+        for h in hits:
+            lines.append(f"  ✨ <b>Rank #{h['rank']:02d}</b> (<code>{h['number']}</code>) ➔ <b>{h['type']}</b> (+RM {h['win_rm']:.2f})")
+    else:
+        lines.append("<i>Tiada kenaan bagi 20 nombor cadangan Formula 37 pada cabutan ini.</i>")
+
+    lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    lines.append(f"⏰ <i>Disemak pada: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</i>")
+    return "\n".join(lines)
+
+
 def main():
     print("=" * 80)
-    print(" 🚀 MEMULAKAN SEMAKAN KEPUTUSAN CABUTAN TOTO 4D (3 FORMULA)")
+    print(" 🚀 MEMULAKAN SEMAKAN KEPUTUSAN CABUTAN TOTO 4D (4 FORMULA)")
     print("=" * 80)
 
     actual_draw = fetch_latest_draw(days=7)
@@ -328,6 +379,25 @@ def main():
         msg_36 = build_result_message("Formula 36: Tuned Dynamic Exponential Decay Gate", data_36, actual_draw, winnings_36, hits_36)
         send_telegram_message(msg_36)
         full_reports["evaluations"].append({"formula": "36_tuned_dynamic_ema_gate", "winnings": winnings_36, "hits": hits_36})
+        time.sleep(1.5)
+
+    # 4. Semakan Formula 37 (Ensemble Master)
+    file_37_target = FILE_FORMULA_37
+    if not os.path.exists(file_37_target):
+        alt_37 = os.path.join(TEMP_DIR, "recommendations_37_ensemble_multi_regime_ibox.json")
+        if os.path.exists(alt_37):
+            file_37_target = alt_37
+
+    if os.path.exists(file_37_target):
+        with open(file_37_target, "r", encoding="utf-8") as f:
+            data_37 = json.load(f)
+        recs_37 = data_37.get("recommendations", [])
+        winnings_37, hits_37 = evaluate_predictions(recs_37, actual_draw)
+        msg_37 = build_result_message_formula_37(data_37, actual_draw, winnings_37, hits_37)
+        send_telegram_message(msg_37)
+        full_reports["evaluations"].append({"formula": "37_ensemble_multi_regime_ibox", "winnings": winnings_37, "hits": hits_37})
+    else:
+        print(f"[-] Fail Formula 37 tidak dijumpai di: {file_37_target}")
 
     # Simpan laporan semakan ke folder temp untuk kegunaan artifact
     with open(REPORT_OUTPUT_FILE, "w", encoding="utf-8") as f:

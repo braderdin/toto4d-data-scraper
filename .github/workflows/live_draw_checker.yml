@@ -37,5 +37,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: draw-verification-report
-          path: live_engine/temp/
+          path: |
+            live_engine/temp/
+            temp/
           retention-days: 14
