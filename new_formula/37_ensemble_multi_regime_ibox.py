@@ -46,9 +46,9 @@ except ImportError:
     console = None
 
 # ==========================================
-# KONFIGURASI DIREKTORI & LALUAN FAIL
+# KONFIGURASI DIREKTORI & LALUAN FAIL (DINAMIK)
 # ==========================================
-BASE_DIR = "/home/braderdin/toto4d-data-scraper"
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DATA_FILE = os.path.join(BASE_DIR, "data", "output", "toto_4d_results.json")
 TEMP_DIR = os.path.join(BASE_DIR, "temp")
 TEMP_OUTPUT_FILE = os.path.join(TEMP_DIR, "recommendations_37_ensemble_multi_regime_ibox.json")
