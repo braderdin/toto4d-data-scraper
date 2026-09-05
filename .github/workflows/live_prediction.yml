@@ -2,9 +2,9 @@ name: Sports Toto 4D Live Prediction & Notification Pipeline
 
 on:
   schedule:
-    # Berjalan jam 6:00 Pagi MYT pada hari cabutan: Selasa (Special), Rabu, Sabtu & Ahad
-    # Persamaan UTC: Isnin, Selasa, Jumaat & Sabtu jam 22:00 UTC
-    - cron: '0 22 * * 1,2,5,6'
+    # Berjalan jam 4:00 Pagi MYT sehari selepas malam cabutan: Isnin, Rabu, Khamis & Ahad
+    # Persamaan UTC: Ahad, Selasa, Rabu & Sabtu jam 20:00 UTC
+    - cron: '0 20 * * 0,2,3,6'
   workflow_dispatch: # Membolehkan trigger manual bila-bila masa dari GitHub UI
 
 permissions:
