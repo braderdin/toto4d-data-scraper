@@ -5,8 +5,9 @@
 PROJECT      : TOTO 4D LIVE ENGINE & DRAW VERIFICATION
 MODULE       : 00_draw_checker.py
 DESCRIPTION  : Mengutip data cabutan terkini (1 minggu), membandingkan dengan 
-               cadangan Formula 18, 20, 36, 37 & 39, mengira kemenangan 
-               (Direct Big & iBox Big), dan menghantar laporan berasingan ke Telegram.
+               cadangan Formula 18, 20, 36, 37, 39 & 42, mengira kemenangan 
+               (Direct Big & iBox Big), membuat perbandingan simulasi bajet
+               jimat (RM10 & RM15) bagi F42, dan menghantar laporan ke Telegram.
 AUTHOR/USER  : braderdin
 ===============================================================================
 """
@@ -48,6 +49,7 @@ FILE_FORMULA_20 = os.path.join(TEMP_DIR, "20_dynamic_regime_switching.json")
 FILE_FORMULA_36 = os.path.join(TEMP_DIR, "36_tuned_dynamic_ema_gate.json")
 FILE_FORMULA_37 = os.path.join(ROOT_TEMP_DIR, "recommendations_37_ensemble_multi_regime_ibox.json")
 FILE_FORMULA_39 = os.path.join(ROOT_TEMP_DIR, "recommendations_39_ensemble_hybrid_direct_ibox.json")
+FILE_FORMULA_42 = os.path.join(ROOT_TEMP_DIR, "recommendations_42_ensemble_hybrid_direct_ibox.json")
 REPORT_OUTPUT_FILE = os.path.join(TEMP_DIR, "draw_checker_report.json")
 
 BASE_URL = "https://4d4d.co/result"
@@ -161,7 +163,7 @@ def fetch_latest_draw(days=7):
 
 
 def evaluate_predictions(recs, actual_draw):
-    """Menyemak kenaan dan mengira jumlah kemenangan (Menyokong F18, F20, F36, F37 & F39)."""
+    """Menyemak kenaan dan mengira jumlah kemenangan."""
     p1 = str(actual_draw.get('1st_prize', '')).strip()
     p2 = str(actual_draw.get('2nd_prize', '')).strip()
     p3 = str(actual_draw.get('3rd_prize', '')).strip()
@@ -177,7 +179,7 @@ def evaluate_predictions(recs, actual_draw):
         bet_direct = item.get('bet_direct_rm', 0)
         bet_ibox = item.get('bet_ibox_rm', 0)
 
-        # Keserasian fleksibel untuk Formula 37 & Formula 39
+        # Keserasian fleksibel untuk Formula 37, 39 & 42
         if item.get('bet_type') == 'iBox' and bet_ibox == 0:
             bet_ibox = item.get('bet_amount_rm', 1.0)
         elif item.get('bet_type') == 'Direct' and bet_direct == 0:
@@ -399,9 +401,104 @@ def build_result_message_formula_39(payload, actual_draw, winnings, hits):
     return "\n".join(lines)
 
 
+def build_result_message_formula_42(payload, actual_draw, winnings, hits):
+    """
+    Menjana format semakan eksklusif Formula 42 dengan perbandingan prestasi:
+    1. Pelaburan Penuh (RM 25.00 - 25 Nombor)
+    2. Pilihan Bajet Jimat (RM 10.00 - Top 10 Ranks)
+    3. Pilihan Bajet Sederhana (RM 15.00 - Top 15 Ranks)
+    """
+    draw_no = actual_draw.get("draw_no", "N/A")
+    draw_date = actual_draw.get("date", "N/A")
+    meta = payload.get("meta_signals", {})
+    regime = meta.get("regime_status", "EXPONENTIAL-BALANCED")
+    twin_ratio = meta.get("twin_ratio", 0.0)
+    budget_picks = payload.get("budget_picks", {})
+
+    t10_ranks = set(budget_picks.get("tier_rm10_ranks", []))
+    t15_ranks = set(budget_picks.get("tier_rm15_ranks", []))
+
+    # 1. Kiraan Mod Penuh (RM 25)
+    cost_full = payload.get("budget_rm", 25.0)
+    net_full = winnings - cost_full
+    roi_full = (net_full / cost_full * 100) if cost_full > 0 else 0.0
+
+    # 2. Kiraan Mod Bajet RM 10 (Top 10)
+    cost_10 = float(len(t10_ranks)) if t10_ranks else 10.0
+    hits_10 = [h for h in hits if h.get("rank") in t10_ranks]
+    win_10 = sum(h.get("win_rm", 0.0) for h in hits_10)
+    net_10 = win_10 - cost_10
+    roi_10 = (net_10 / cost_10 * 100) if cost_10 > 0 else 0.0
+
+    # 3. Kiraan Mod Bajet RM 15 (Top 15)
+    cost_15 = float(len(t15_ranks)) if t15_ranks else 15.0
+    hits_15 = [h for h in hits if h.get("rank") in t15_ranks]
+    win_15 = sum(h.get("win_rm", 0.0) for h in hits_15)
+    net_15 = win_15 - cost_15
+    roi_15 = (net_15 / cost_15 * 100) if cost_15 > 0 else 0.0
+
+    def format_status(net_val, win_val):
+        if net_val > 0:
+            return "🎉 <b>UNTUNG BERSIH</b>", "bold green"
+        elif win_val > 0:
+            return "⚠️ <b>KURANG RUGI (HITS)</b>", "yellow"
+        else:
+            return "💤 <b>RUGI MODAL (LOSS)</b>", "red"
+
+    stat_full_txt, _ = format_status(net_full, winnings)
+    stat_10_txt, _ = format_status(net_10, win_10)
+    stat_15_txt, _ = format_status(net_15, win_15)
+
+    had_direct = any("Direct" in h.get("type", "") for h in hits)
+
+    lines = [
+        "🌟 <b>SPORTS TOTO 4D — SEMAKAN FORMULA 42 (FLAGSHIP)</b> 🌟",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "🏆 <b>Ensemble Optimized Portfolio (Twin Overweight)</b>",
+        f"📅 <b>Keputusan Rasmi:</b> <code>Draw #{draw_no} ({draw_date})</code>",
+        f"🥇 <b>1st:</b> <code>{actual_draw.get('1st_prize')}</code> │ 🥈 <b>2nd:</b> <code>{actual_draw.get('2nd_prize')}</code> │ 🥉 <b>3rd:</b> <code>{actual_draw.get('3rd_prize')}</code>",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "📊 <b>PERBANDINGAN 3 MOD BAJET PELABURAN:</b>",
+        "",
+        "💎 <b>1. Mod Penuh (RM 25.00 — 25 Nombor):</b>",
+        f"  • Pulangan: <b>RM {winnings:,.2f}</b> │ Untung: <b>RM {net_full:+,.2f}</b> ({roi_full:+.1f}%)",
+        f"  • Status: {stat_full_txt}",
+        "",
+        "💵 <b>2. Mod Jimat (RM 10.00 — Top 10 Nombor):</b>",
+        f"  • Pulangan: <b>RM {win_10:,.2f}</b> │ Untung: <b>RM {net_10:+,.2f}</b> ({roi_10:+.1f}%)",
+        f"  • Status: {stat_10_txt}",
+        "",
+        "💵 <b>3. Mod Sederhana (RM 15.00 — Top 15 Nombor):</b>",
+        f"  • Pulangan: <b>RM {win_15:,.2f}</b> │ Untung: <b>RM {net_15:+,.2f}</b> ({roi_15:+.1f}%)",
+        f"  • Status: {stat_15_txt}",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+    ]
+
+    if hits:
+        lines.append("🎯 <b>PERINCIAN KENAAN HADIAH RASMI:</b>")
+        for h in hits:
+            r_no = h.get("rank", 0)
+            if r_no in t10_ranks:
+                tier_badge = "⭐ <b>[Top 10 & 15]</b>"
+            elif r_no in t15_ranks:
+                tier_badge = "💡 <b>[Top 15 Sahaja]</b>"
+            else:
+                tier_badge = "🛡️ <b>[Portfolio Penuh]</b>"
+
+            d_icon = "💥 [DIRECT]" if "Direct" in h.get("type", "") else "✨ [iBox]"
+            lines.append(f"  {d_icon} <b>Rank #{r_no:02d}</b> (<code>{h['number']}</code>) ➔ <b>{h['type']}</b> (+RM {h['win_rm']:,.2f}) {tier_badge}")
+    else:
+        lines.append("<i>Tiada nombor Formula 42 yang mengena pada sesi cabutan ini.</i>")
+
+    lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    lines.append(f"🌐 <i>Rejim: {regime} (Kembar: {twin_ratio*100:.1f}%)</i>")
+    lines.append(f"⏰ <i>Disemak pada: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</i>")
+    return "\n".join(lines)
+
+
 def main():
     print("=" * 80)
-    print(" 🚀 MEMULAKAN SEMAKAN KEPUTUSAN CABUTAN TOTO 4D (5 FORMULA)")
+    print(" 🚀 MEMULAKAN SEMAKAN KEPUTUSAN CABUTAN TOTO 4D (6 FORMULA)")
     print("=" * 80)
 
     actual_draw = fetch_latest_draw(days=7)
@@ -478,10 +575,34 @@ def main():
         msg_39 = build_result_message_formula_39(data_39, actual_draw, winnings_39, hits_39)
         send_telegram_message(msg_39)
         full_reports["evaluations"].append({"formula": "39_ensemble_hybrid_direct_ibox", "winnings": winnings_39, "hits": hits_39})
+        time.sleep(1.5)
     else:
         print(f"[-] Fail Formula 39 tidak dijumpai di: {file_39_target}")
 
-    # Simpan keseluruhan ringkasan laporan ke fail JSON untuk kegunaan artifact
+    # 6. Semakan Formula 42 (Flagship Portfolio + Perbandingan Bajet RM10/RM15)
+    file_42_target = FILE_FORMULA_42
+    if not os.path.exists(file_42_target):
+        alt_42 = os.path.join(TEMP_DIR, "recommendations_42_ensemble_hybrid_direct_ibox.json")
+        if os.path.exists(alt_42):
+            file_42_target = alt_42
+
+    if os.path.exists(file_42_target):
+        with open(file_42_target, "r", encoding="utf-8") as f:
+            data_42 = json.load(f)
+        recs_42 = data_42.get("recommendations", [])
+        winnings_42, hits_42 = evaluate_predictions(recs_42, actual_draw)
+        msg_42 = build_result_message_formula_42(data_42, actual_draw, winnings_42, hits_42)
+        send_telegram_message(msg_42)
+        full_reports["evaluations"].append({
+            "formula": "42_ensemble_optimized_portfolio_hybrid",
+            "winnings": winnings_42,
+            "hits": hits_42,
+            "budget_picks_evaluated": data_42.get("budget_picks", {})
+        })
+    else:
+        print(f"[-] Fail Formula 42 tidak dijumpai di: {file_42_target}")
+
+    # Simpan laporan semakan ke JSON untuk fail artifact
     with open(REPORT_OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(full_reports, f, indent=4, ensure_ascii=False)
 
