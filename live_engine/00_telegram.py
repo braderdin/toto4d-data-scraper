@@ -4,8 +4,11 @@
 ===============================================================================
 PROJECT      : TOTO 4D LIVE ENGINE & NOTIFICATION PIPELINE
 MODULE       : 00_telegram.py
-DESCRIPTION  : Membaca fail JSON cadangan formula (18, 20, 36, 37 & 39) dan menghantar
-               5 notifikasi berasingan berformat kemas dan berstruktur ke Telegram.
+DESCRIPTION  : Membaca fail JSON cadangan formula (18, 20, 36, 37, 39 & 42) dan
+               menghantar 6 notifikasi berasingan berformat kemas dan berstruktur
+               ke Telegram menggunakan reka bentuk visual tersuai.
+               Khusus Formula 42: Dilengkapi penunjuk prestasi 3 bulan bagi
+               setiap nombor serta seleksi pilihan bajet pantas RM10 & RM15.
 AUTHOR/USER  : braderdin
 ===============================================================================
 """
@@ -35,12 +38,13 @@ elif os.path.exists(ENV_DEFAULT):
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-# Laluan fail input JSON bagi kelima-lima formula
+# Laluan fail input JSON bagi keenam-enam formula
 FILE_FORMULA_18 = os.path.join(TEMP_DIR, "18_dual_window_bayesian_momentum.json")
 FILE_FORMULA_20 = os.path.join(TEMP_DIR, "20_dynamic_regime_switching.json")
 FILE_FORMULA_36 = os.path.join(TEMP_DIR, "36_tuned_dynamic_ema_gate.json")
 FILE_FORMULA_37 = os.path.join(TEMP_FORMULA_DIR, "recommendations_37_ensemble_multi_regime_ibox.json")
 FILE_FORMULA_39 = os.path.join(TEMP_FORMULA_DIR, "recommendations_39_ensemble_hybrid_direct_ibox.json")
+FILE_FORMULA_42 = os.path.join(TEMP_FORMULA_DIR, "recommendations_42_ensemble_hybrid_direct_ibox.json")
 
 
 def send_telegram_message(text_message):
@@ -285,7 +289,6 @@ def build_message_formula_39(data):
     lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━")
     lines.append("🛡️ <b>21 NOMBOR BIG iBOX (RM 1.00) — RISK ABSORBER:</b>")
 
-    # Pecahan iBox mengikut corak
     ibox_p4 = [r for r in ibox_list if r.get("permutation") == 4]
     ibox_p6 = [r for r in ibox_list if r.get("permutation") == 6]
     ibox_p12 = [r for r in ibox_list if r.get("permutation") == 12]
@@ -318,9 +321,124 @@ def build_message_formula_39(data):
     return "\n".join(lines)
 
 
+def build_message_formula_42(data):
+    """Menjana format mesej Formula 42 dengan rekod prestasi 3 bulan bagi setiap rank dan cadangan bajet jimat."""
+    formula_name = data.get("formula_name", "Formula 42 - Ensemble Optimized Portfolio (Twin Overweight)")
+    target_date = data.get("target_date", "N/A")
+    draw_no = data.get("draw_no", "N/A")
+    budget = data.get("budget_rm", 25.0)
+    meta = data.get("meta_signals", {})
+    regime = meta.get("regime_status", "EXPONENTIAL-BALANCED")
+    twin_ratio = meta.get("twin_ratio", 0.0)
+    gen_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    recs = data.get("recommendations", [])
+    budget_picks = data.get("budget_picks", {})
+
+    direct_list = [r for r in recs if r.get("bet_type") == "Direct"]
+    ibox_list = [r for r in recs if r.get("bet_type") == "iBox"]
+
+    lines = [
+        "🌟 <b>SPORTS TOTO 4D — FLAGSHIP MASTER (F42)</b> 🌟",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        f"🏆 <b>Formula 42:</b> <code>{formula_name}</code>",
+        f"📅 <b>Sasaran Cabutan:</b> <code>Draw #{draw_no} ({target_date})</code>",
+        f"📊 <b>Rejim Pasaran:</b> <code>{regime}</code> (Kembar: <code>{twin_ratio*100:.1f}%</code>)",
+        f"💰 <b>Strategi Penuh:</b> <b>RM {budget:.2f}</b> (4 Direct + 21 iBox)",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━",
+        "🎯 <b>4 DIRECT BIG (RM 1.00) — JACKPOT HUNT:</b>",
+    ]
+
+    for item in direct_list:
+        cat_short = item.get("category", "").split("(")[0].strip()
+        perf = item.get("perf_3m", {})
+        pnl = perf.get("pnl_rm", 0.0)
+        hits = perf.get("hits", 0)
+
+        # Lencana status prestasi 3 bulan bagi Direct
+        if pnl > 0:
+            badge = f"👑 <b>[+RM{pnl:,.0f} | {hits}x]</b>"
+        elif hits > 0:
+            badge = f"🎯 <b>[RM{pnl:,.0f} | {hits}x]</b>"
+        else:
+            badge = "🔻 [0 Hit]"
+
+        lines.append(f"  <b>#{item['rank']:02d}</b>  💥  <code><b>{item['number']}</b></code>  │  Direct <b>RM1</b> ({cat_short}) {badge}")
+
+    lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    lines.append("🛡️ <b>21 BIG iBOX (RM 1.00) — PRESTASI 3 BULAN:</b>")
+
+    ibox_p4 = [r for r in ibox_list if r.get("permutation") == 4]
+    ibox_p6 = [r for r in ibox_list if r.get("permutation") == 6]
+    ibox_p12 = [r for r in ibox_list if r.get("permutation") == 12]
+    ibox_p24 = [r for r in ibox_list if r.get("permutation") == 24]
+
+    def format_ibox_line(item, label):
+        perf = item.get("perf_3m", {})
+        pnl = perf.get("pnl_rm", 0.0)
+        hits = perf.get("hits", 0)
+        if pnl > 0:
+            badge = f"🚀 <b>[+RM{pnl:,.0f} | {hits}x]</b>"
+        elif hits > 0:
+            badge = f"🎯 <b>[RM{pnl:,.0f} | {hits}x]</b>"
+        else:
+            badge = "🔻 [0x]"
+        return f"  <b>#{item['rank']:02d}</b>  👉  <code><b>{item['number']}</b></code>  │  iBox <b>RM1</b> ({label}) {badge}"
+
+    lines.append("")
+    lines.append("💎 <b>4-Way Triplet (4x iBox RM1 — Fokus Padat):</b>")
+    for item in ibox_p4:
+        lines.append(format_ibox_line(item, "AAAB"))
+
+    lines.append("")
+    lines.append(f"🔥 <b>6-Way Dwi-Kembar ({len(ibox_p6)}x iBox RM1 — Zon Untung Tertinggi):</b>")
+    for item in ibox_p6:
+        lines.append(format_ibox_line(item, "AABB"))
+
+    lines.append("")
+    lines.append("⚡ <b>12-Way 1-Pasang (2x iBox RM1 — Perisai Modal):</b>")
+    for item in ibox_p12:
+        lines.append(format_ibox_line(item, "AABC"))
+
+    lines.append("")
+    lines.append("🎲 <b>24-Way Berbeza (2x iBox RM1 — Penampung Varians):</b>")
+    for item in ibox_p24:
+        lines.append(format_ibox_line(item, "ABCD"))
+
+    # ==============================================================================
+    # SEKSYEN KHAS: CADANGAN PILIHAN BAJET JIMAT (RM10 & RM15)
+    # ==============================================================================
+    t10 = budget_picks.get("tier_rm10_ranks", [])
+    t15 = budget_picks.get("tier_rm15_ranks", [])
+
+    if t10 and t15:
+        lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        lines.append("💡 <b>PILIHAN BAJET JIMAT (BERDASARKAN PRESTASI 3 BULAN):</b>")
+
+        t10_nums = []
+        for r_no in t10:
+            match = next((x for x in recs if x["rank"] == r_no), None)
+            if match:
+                t10_nums.append(f"<code>#{r_no:02d}({match['number']})</code>")
+
+        t15_extra = []
+        for r_no in t15[10:]:
+            match = next((x for x in recs if x["rank"] == r_no), None)
+            if match:
+                t15_extra.append(f"<code>#{r_no:02d}({match['number']})</code>")
+
+        lines.append(f"💵 <b>Bajet RM 10.00 (Top 10 Nombor Terbaik):</b>\n  👉 {' '.join(t10_nums)}")
+        lines.append(f"💵 <b>Bajet RM 15.00 (+5 Nombor Tambahan):</b>\n  👉 {' '.join(t15_extra)}")
+
+    lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    lines.append(f"⏰ <i>Dijana pada: {gen_time}</i>")
+    lines.append("⚠️ <i>Gunakan strategi portfolio dengan disiplin modal.</i>")
+
+    return "\n".join(lines)
+
+
 def process_and_send():
     print("=" * 80)
-    print(" 🚀 MEMULAKAN PENGHANTARAN NOTIFIKASI TELEGRAM (LIVE ENGINE - 5 FORMULA)")
+    print(" 🚀 MEMULAKAN PENGHANTARAN NOTIFIKASI TELEGRAM (LIVE ENGINE - 6 FORMULA)")
     print("=" * 80)
 
     # 1. Proses Formula 18
@@ -396,8 +514,23 @@ def process_and_send():
     else:
         print(f"[-] Fail tidak dijumpai: {FILE_FORMULA_39}")
 
+    time.sleep(1.5)
+
+    # 6. Proses Formula 42 (Flagship Master - F18 Tuned + Twin Overweight)
+    if os.path.exists(FILE_FORMULA_42):
+        try:
+            with open(FILE_FORMULA_42, "r", encoding="utf-8") as f:
+                data_42 = json.load(f)
+            msg_42 = build_message_formula_42(data_42)
+            print("[+] Menghantar Mesej 6 (Formula 42: Flagship Optimized Portfolio Master)...")
+            send_telegram_message(msg_42)
+        except Exception as e:
+            print(f"[-] Ralat memproses fail Formula 42: {e}")
+    else:
+        print(f"[-] Fail tidak dijumpai: {FILE_FORMULA_42}")
+
     print("=" * 80)
-    print(" ✨ Selesai penghantaran notifikasi 5 formula!")
+    print(" ✨ Selesai penghantaran notifikasi 6 formula!")
     print("=" * 80)
 
 

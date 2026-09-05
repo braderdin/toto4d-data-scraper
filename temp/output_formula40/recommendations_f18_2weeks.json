@@ -1,0 +1,239 @@
+{
+    "formula": "Formula 40 - F18 Multi-Window Benchmark",
+    "horizon_name": "2 Minggu Analisis",
+    "horizon_days": 14,
+    "target_next_draw": "02/09/2026",
+    "entropy_shannon": 8.7733,
+    "budget_total_rm": 25.0,
+    "breakdown": {
+        "direct_rm1": 4,
+        "ibox_rm1": 21
+    },
+    "recommendations": [
+        {
+            "number": "0005",
+            "permutation": 4,
+            "score": -9.7417,
+            "bet_type": "Direct",
+            "category": "Triplet (AAAB)",
+            "bet_amount_rm": 1.0,
+            "rank": 1
+        },
+        {
+            "number": "0909",
+            "permutation": 6,
+            "score": -10.0316,
+            "bet_type": "Direct",
+            "category": "Dwi-Kembar (AABB)",
+            "bet_amount_rm": 1.0,
+            "rank": 2
+        },
+        {
+            "number": "7005",
+            "permutation": 12,
+            "score": -9.2458,
+            "bet_type": "Direct",
+            "category": "1-Pasang (AABC)",
+            "bet_amount_rm": 1.0,
+            "rank": 3
+        },
+        {
+            "number": "7105",
+            "permutation": 24,
+            "score": -9.0557,
+            "bet_type": "Direct",
+            "category": "Berbeza (ABCD)",
+            "bet_amount_rm": 1.0,
+            "rank": 4
+        },
+        {
+            "number": "0005",
+            "permutation": 4,
+            "score": -9.7417,
+            "bet_type": "iBox",
+            "category": "Triplet (AAAB)",
+            "bet_amount_rm": 1.0,
+            "rank": 5
+        },
+        {
+            "number": "7555",
+            "permutation": 4,
+            "score": -10.8578,
+            "bet_type": "iBox",
+            "category": "Triplet (AAAB)",
+            "bet_amount_rm": 1.0,
+            "rank": 6
+        },
+        {
+            "number": "7111",
+            "permutation": 4,
+            "score": -11.0549,
+            "bet_type": "iBox",
+            "category": "Triplet (AAAB)",
+            "bet_amount_rm": 1.0,
+            "rank": 7
+        },
+        {
+            "number": "9909",
+            "permutation": 4,
+            "score": -11.2779,
+            "bet_type": "iBox",
+            "category": "Triplet (AAAB)",
+            "bet_amount_rm": 1.0,
+            "rank": 8
+        },
+        {
+            "number": "7775",
+            "permutation": 4,
+            "score": -11.4983,
+            "bet_type": "iBox",
+            "category": "Triplet (AAAB)",
+            "bet_amount_rm": 1.0,
+            "rank": 9
+        },
+        {
+            "number": "2202",
+            "permutation": 4,
+            "score": -11.7734,
+            "bet_type": "iBox",
+            "category": "Triplet (AAAB)",
+            "bet_amount_rm": 1.0,
+            "rank": 10
+        },
+        {
+            "number": "3335",
+            "permutation": 4,
+            "score": -11.8215,
+            "bet_type": "iBox",
+            "category": "Triplet (AAAB)",
+            "bet_amount_rm": 1.0,
+            "rank": 11
+        },
+        {
+            "number": "0909",
+            "permutation": 6,
+            "score": -10.0316,
+            "bet_type": "iBox",
+            "category": "Dwi-Kembar (AABB)",
+            "bet_amount_rm": 1.0,
+            "rank": 12
+        },
+        {
+            "number": "0055",
+            "permutation": 6,
+            "score": -10.2656,
+            "bet_type": "iBox",
+            "category": "Dwi-Kembar (AABB)",
+            "bet_amount_rm": 1.0,
+            "rank": 13
+        },
+        {
+            "number": "1155",
+            "permutation": 6,
+            "score": -10.5262,
+            "bet_type": "iBox",
+            "category": "Dwi-Kembar (AABB)",
+            "bet_amount_rm": 1.0,
+            "rank": 14
+        },
+        {
+            "number": "0404",
+            "permutation": 6,
+            "score": -10.5763,
+            "bet_type": "iBox",
+            "category": "Dwi-Kembar (AABB)",
+            "bet_amount_rm": 1.0,
+            "rank": 15
+        },
+        {
+            "number": "9339",
+            "permutation": 6,
+            "score": -10.6032,
+            "bet_type": "iBox",
+            "category": "Dwi-Kembar (AABB)",
+            "bet_amount_rm": 1.0,
+            "rank": 16
+        },
+        {
+            "number": "7755",
+            "permutation": 6,
+            "score": -10.6888,
+            "bet_type": "iBox",
+            "category": "Dwi-Kembar (AABB)",
+            "bet_amount_rm": 1.0,
+            "rank": 17
+        },
+        {
+            "number": "7171",
+            "permutation": 6,
+            "score": -11.0864,
+            "bet_type": "iBox",
+            "category": "Dwi-Kembar (AABB)",
+            "bet_amount_rm": 1.0,
+            "rank": 18
+        },
+        {
+            "number": "7979",
+            "permutation": 6,
+            "score": -11.26,
+            "bet_type": "iBox",
+            "category": "Dwi-Kembar (AABB)",
+            "bet_amount_rm": 1.0,
+            "rank": 19
+        },
+        {
+            "number": "5335",
+            "permutation": 6,
+            "score": -11.2835,
+            "bet_type": "iBox",
+            "category": "Dwi-Kembar (AABB)",
+            "bet_amount_rm": 1.0,
+            "rank": 20
+        },
+        {
+            "number": "2255",
+            "permutation": 6,
+            "score": -11.2854,
+            "bet_type": "iBox",
+            "category": "Dwi-Kembar (AABB)",
+            "bet_amount_rm": 1.0,
+            "rank": 21
+        },
+        {
+            "number": "7005",
+            "permutation": 12,
+            "score": -9.2458,
+            "bet_type": "iBox",
+            "category": "1-Pasang (AABC)",
+            "bet_amount_rm": 1.0,
+            "rank": 22
+        },
+        {
+            "number": "7004",
+            "permutation": 12,
+            "score": -9.2598,
+            "bet_type": "iBox",
+            "category": "1-Pasang (AABC)",
+            "bet_amount_rm": 1.0,
+            "rank": 23
+        },
+        {
+            "number": "7105",
+            "permutation": 24,
+            "score": -9.0557,
+            "bet_type": "iBox",
+            "category": "Berbeza (ABCD)",
+            "bet_amount_rm": 1.0,
+            "rank": 24
+        },
+        {
+            "number": "7104",
+            "permutation": 24,
+            "score": -9.0696,
+            "bet_type": "iBox",
+            "category": "Berbeza (ABCD)",
+            "bet_amount_rm": 1.0,
+            "rank": 25
+        }
+    ]
+}
