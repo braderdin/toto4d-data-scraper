@@ -1,12 +1,12 @@
 {
     "formula_id": "42_ensemble_optimized_portfolio_hybrid",
     "formula_name": "Formula 42 - Ensemble Optimized Portfolio (F18 Tuned + Twin Overweight)",
-    "target_date": "16/09/2026",
-    "draw_no": "6186-26",
+    "target_date": "19/09/2026",
+    "draw_no": "6187-26",
     "meta_signals": {
-        "twin_ratio": 0.475,
-        "dominant_digit_power": 0.1084,
-        "entropy_f18": 9.13,
+        "twin_ratio": 0.49,
+        "dominant_digit_power": 0.1087,
+        "entropy_f18": 9.15,
         "entropy_f36": 9.16,
         "regime_status": "EXPONENTIAL-BALANCED"
     },
@@ -33,7 +33,7 @@
         {
             "number": "9555",
             "permutation": 4,
-            "score": -11.0985,
+            "score": -11.038,
             "bet_type": "Direct",
             "category": "4-Way (Triplet AAAB)",
             "bet_amount_rm": 1.0,
@@ -49,7 +49,7 @@
         {
             "number": "9955",
             "permutation": 6,
-            "score": -11.105,
+            "score": -11.0663,
             "bet_type": "Direct",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -65,7 +65,7 @@
         {
             "number": "9655",
             "permutation": 12,
-            "score": -11.1041,
+            "score": -11.0763,
             "bet_type": "Direct",
             "category": "12-Way (1-Pasang AABC)",
             "bet_amount_rm": 1.0,
@@ -81,7 +81,7 @@
         {
             "number": "9635",
             "permutation": 24,
-            "score": -11.2389,
+            "score": -11.3375,
             "bet_type": "Direct",
             "category": "24-Way (Berbeza Penuh ABCD)",
             "bet_amount_rm": 1.0,
@@ -97,7 +97,7 @@
         {
             "number": "9555",
             "permutation": 4,
-            "score": -11.0985,
+            "score": -11.038,
             "bet_type": "iBox",
             "category": "4-Way (Triplet AAAB)",
             "bet_amount_rm": 1.0,
@@ -111,9 +111,9 @@
             }
         },
         {
-            "number": "9995",
+            "number": "9939",
             "permutation": 4,
-            "score": -11.1409,
+            "score": -11.1551,
             "bet_type": "iBox",
             "category": "4-Way (Triplet AAAB)",
             "bet_amount_rm": 1.0,
@@ -127,9 +127,9 @@
             }
         },
         {
-            "number": "1911",
+            "number": "4424",
             "permutation": 4,
-            "score": -11.4065,
+            "score": -11.3622,
             "bet_type": "iBox",
             "category": "4-Way (Triplet AAAB)",
             "bet_amount_rm": 1.0,
@@ -143,9 +143,9 @@
             }
         },
         {
-            "number": "0200",
+            "number": "1911",
             "permutation": 4,
-            "score": -11.4113,
+            "score": -11.4412,
             "bet_type": "iBox",
             "category": "4-Way (Triplet AAAB)",
             "bet_amount_rm": 1.0,
@@ -161,7 +161,7 @@
         {
             "number": "9955",
             "permutation": 6,
-            "score": -11.105,
+            "score": -11.0663,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -177,7 +177,7 @@
         {
             "number": "6655",
             "permutation": 6,
-            "score": -11.3308,
+            "score": -11.2399,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -191,9 +191,9 @@
             }
         },
         {
-            "number": "9339",
+            "number": "4455",
             "permutation": 6,
-            "score": -11.3309,
+            "score": -11.2499,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -207,9 +207,9 @@
             }
         },
         {
-            "number": "3535",
+            "number": "3939",
             "permutation": 6,
-            "score": -11.3378,
+            "score": -11.2504,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -223,9 +223,9 @@
             }
         },
         {
-            "number": "9669",
+            "number": "2424",
             "permutation": 6,
-            "score": -11.3494,
+            "score": -11.2954,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -241,23 +241,23 @@
         {
             "number": "1919",
             "permutation": 6,
-            "score": -11.369,
+            "score": -11.3166,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
             "rank": 14,
             "perf_3m": {
-                "hits": 3,
+                "hits": 4,
                 "cost_rm": 42.0,
-                "won_rm": 50.0,
-                "pnl_rm": 8.0,
-                "roi_pct": 19.0
+                "won_rm": 60.0,
+                "pnl_rm": 18.0,
+                "roi_pct": 42.9
             }
         },
         {
-            "number": "0202",
+            "number": "2255",
             "permutation": 6,
-            "score": -11.3734,
+            "score": -11.3294,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -271,9 +271,9 @@
             }
         },
         {
-            "number": "4455",
+            "number": "9494",
             "permutation": 6,
-            "score": -11.3954,
+            "score": -11.3748,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -287,9 +287,9 @@
             }
         },
         {
-            "number": "4224",
+            "number": "7227",
             "permutation": 6,
-            "score": -11.4018,
+            "score": -11.5111,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -303,9 +303,9 @@
             }
         },
         {
-            "number": "7227",
+            "number": "0202",
             "permutation": 6,
-            "score": -11.4438,
+            "score": -11.5161,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -319,9 +319,9 @@
             }
         },
         {
-            "number": "1155",
+            "number": "9696",
             "permutation": 6,
-            "score": -11.4564,
+            "score": -11.5209,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -335,9 +335,9 @@
             }
         },
         {
-            "number": "9922",
+            "number": "3355",
             "permutation": 6,
-            "score": -11.4752,
+            "score": -11.5406,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -351,9 +351,9 @@
             }
         },
         {
-            "number": "4664",
+            "number": "9900",
             "permutation": 6,
-            "score": -11.4872,
+            "score": -11.5606,
             "bet_type": "iBox",
             "category": "6-Way (Dwi-Kembar AABB)",
             "bet_amount_rm": 1.0,
@@ -369,23 +369,23 @@
         {
             "number": "9655",
             "permutation": 12,
-            "score": -11.1041,
+            "score": -11.0763,
             "bet_type": "iBox",
             "category": "12-Way (1-Pasang AABC)",
             "bet_amount_rm": 1.0,
             "rank": 22,
             "perf_3m": {
-                "hits": 3,
+                "hits": 4,
                 "cost_rm": 42.0,
-                "won_rm": 35.0,
-                "pnl_rm": -7.0,
-                "roi_pct": -16.7
+                "won_rm": 50.0,
+                "pnl_rm": 8.0,
+                "roi_pct": 19.0
             }
         },
         {
-            "number": "9695",
+            "number": "1955",
             "permutation": 12,
-            "score": -11.2121,
+            "score": -11.1739,
             "bet_type": "iBox",
             "category": "12-Way (1-Pasang AABC)",
             "bet_amount_rm": 1.0,
@@ -401,7 +401,7 @@
         {
             "number": "9635",
             "permutation": 24,
-            "score": -11.2389,
+            "score": -11.3375,
             "bet_type": "iBox",
             "category": "24-Way (Berbeza Penuh ABCD)",
             "bet_amount_rm": 1.0,
@@ -415,9 +415,9 @@
             }
         },
         {
-            "number": "9605",
+            "number": "1935",
             "permutation": 24,
-            "score": -11.357,
+            "score": -11.4351,
             "bet_type": "iBox",
             "category": "24-Way (Berbeza Penuh ABCD)",
             "bet_amount_rm": 1.0,
@@ -437,11 +437,11 @@
             9,
             10,
             3,
-            18,
             14,
+            18,
+            22,
             7,
             17,
-            22,
             11
         ],
         "tier_rm15_ranks": [
@@ -449,11 +449,11 @@
             9,
             10,
             3,
-            18,
             14,
+            18,
+            22,
             7,
             17,
-            22,
             11,
             25,
             24,
