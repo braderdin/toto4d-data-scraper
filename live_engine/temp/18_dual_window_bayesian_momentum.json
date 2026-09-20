@@ -1,59 +1,59 @@
 {
     "formula_id": "18_dual_window_bayesian_momentum",
     "formula_name": "Dual-Window Bayesian Momentum",
-    "generated_at": "2026-09-19 22:00:10",
-    "last_draw_date": "19/09/2026",
-    "last_draw_no": "6187-26",
+    "generated_at": "2026-09-20 22:05:34",
+    "last_draw_date": "20/09/2026",
+    "last_draw_no": "6188-26",
     "confidence_tier": "LOW (RM11)",
-    "entropy": 9.1734,
+    "entropy": 9.1689,
     "budget_total_rm": 11,
-    "total_historical_draws_used": 174,
+    "total_historical_draws_used": 175,
     "recommendations": [
         {
             "rank": 1,
-            "number": "7255",
+            "number": "9655",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 2,
-            "number": "7224",
+            "number": "9624",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 3,
-            "number": "6255",
+            "number": "9255",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 4,
-            "number": "2424",
-            "bet_direct_rm": 0,
-            "bet_ibox_rm": 1
-        },
-        {
-            "rank": 5,
-            "number": "7227",
-            "bet_direct_rm": 0,
-            "bet_ibox_rm": 1
-        },
-        {
-            "rank": 6,
             "number": "2255",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
+            "rank": 5,
+            "number": "2424",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 6,
+            "number": "1919",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
             "rank": 7,
-            "number": "6655",
+            "number": "7227",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
             "rank": 8,
-            "number": "1919",
+            "number": "2828",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         }
