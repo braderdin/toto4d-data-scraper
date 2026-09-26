@@ -1,41 +1,41 @@
 {
     "formula_id": "18_dual_window_bayesian_momentum",
     "formula_name": "Dual-Window Bayesian Momentum",
-    "generated_at": "2026-09-23 22:36:10",
-    "last_draw_date": "23/09/2026",
-    "last_draw_no": "6189-26",
+    "generated_at": "2026-09-26 22:17:43",
+    "last_draw_date": "26/09/2026",
+    "last_draw_no": "6190-26",
     "confidence_tier": "LOW (RM11)",
-    "entropy": 9.1688,
+    "entropy": 9.1617,
     "budget_total_rm": 11,
-    "total_historical_draws_used": 176,
+    "total_historical_draws_used": 177,
     "recommendations": [
         {
             "rank": 1,
-            "number": "2755",
-            "bet_direct_rm": 1,
-            "bet_ibox_rm": 1
-        },
-        {
-            "rank": 2,
             "number": "9655",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
+            "rank": 2,
+            "number": "2755",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
             "rank": 3,
-            "number": "9755",
+            "number": "9665",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 4,
-            "number": "2727",
+            "number": "2255",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
             "rank": 5,
-            "number": "2255",
+            "number": "2727",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
@@ -47,13 +47,13 @@
         },
         {
             "rank": 7,
-            "number": "9955",
+            "number": "7755",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
             "rank": 8,
-            "number": "7227",
+            "number": "6655",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         }
