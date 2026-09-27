@@ -1,59 +1,59 @@
 {
     "formula_id": "18_dual_window_bayesian_momentum",
     "formula_name": "Dual-Window Bayesian Momentum",
-    "generated_at": "2026-09-26 22:17:43",
-    "last_draw_date": "26/09/2026",
-    "last_draw_no": "6190-26",
+    "generated_at": "2026-09-27 22:44:27",
+    "last_draw_date": "27/09/2026",
+    "last_draw_no": "6191-26",
     "confidence_tier": "LOW (RM11)",
-    "entropy": 9.1617,
+    "entropy": 9.1595,
     "budget_total_rm": 11,
-    "total_historical_draws_used": 177,
+    "total_historical_draws_used": 178,
     "recommendations": [
         {
             "rank": 1,
-            "number": "9655",
+            "number": "9628",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 2,
-            "number": "2755",
-            "bet_direct_rm": 1,
-            "bet_ibox_rm": 1
-        },
-        {
-            "rank": 3,
             "number": "9665",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
-            "rank": 4,
-            "number": "2255",
-            "bet_direct_rm": 0,
+            "rank": 3,
+            "number": "9624",
+            "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
-            "rank": 5,
+            "rank": 4,
             "number": "2727",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
+            "rank": 5,
+            "number": "9669",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
             "rank": 6,
-            "number": "2424",
+            "number": "2828",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
             "rank": 7,
-            "number": "7755",
+            "number": "1717",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
             "rank": 8,
-            "number": "6655",
+            "number": "2255",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         }
