@@ -1,29 +1,29 @@
 {
     "formula_id": "36_tuned_dynamic_ema_gate",
     "formula_name": "Tuned Dynamic Exponential Decay Gate",
-    "generated_at": "2026-10-20 22:52:17",
-    "last_draw_date": "18/10/2026",
-    "last_draw_no": "6200-26",
+    "generated_at": "2026-10-21 22:56:54",
+    "last_draw_date": "21/10/2026",
+    "last_draw_no": "6201-26",
     "mode": "DEFENSIVE (RM10)",
-    "entropy": 9.1782,
+    "entropy": 9.1775,
     "budget_total_rm": 10,
-    "total_historical_draws_used": 187,
+    "total_historical_draws_used": 188,
     "recommendations": [
         {
             "rank": 1,
-            "number": "2235",
+            "number": "2215",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 2,
-            "number": "2222",
+            "number": "2235",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 3,
-            "number": "2232",
+            "number": "2715",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
@@ -35,19 +35,19 @@
         },
         {
             "rank": 5,
-            "number": "2727",
-            "bet_direct_rm": 0,
-            "bet_ibox_rm": 1
-        },
-        {
-            "rank": 6,
             "number": "2266",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
+            "rank": 6,
+            "number": "2727",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
             "rank": 7,
-            "number": "3232",
+            "number": "2112",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         }
