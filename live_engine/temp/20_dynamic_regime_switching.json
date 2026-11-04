@@ -1,7 +1,7 @@
 {
     "formula_id": "20_dynamic_regime_switching",
     "formula_name": "Dynamic Regime-Switching Gate",
-    "generated_at": "2026-11-01 23:16:21",
+    "generated_at": "2026-11-04 00:18:35",
     "last_draw_date": "01/11/2026",
     "last_draw_no": "6207-26",
     "regime_mode": "DISTINCT-REGIME (RM11)",
