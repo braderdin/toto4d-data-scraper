@@ -1,13 +1,13 @@
 {
     "formula_id": "36_tuned_dynamic_ema_gate",
     "formula_name": "Tuned Dynamic Exponential Decay Gate",
-    "generated_at": "2026-11-07 23:17:54",
-    "last_draw_date": "07/11/2026",
-    "last_draw_no": "6209-26",
+    "generated_at": "2026-11-08 23:21:07",
+    "last_draw_date": "08/11/2026",
+    "last_draw_no": "6210-26",
     "mode": "DEFENSIVE (RM10)",
-    "entropy": 9.1733,
+    "entropy": 9.1712,
     "budget_total_rm": 10,
-    "total_historical_draws_used": 196,
+    "total_historical_draws_used": 197,
     "recommendations": [
         {
             "rank": 1,
@@ -29,19 +29,19 @@
         },
         {
             "rank": 4,
-            "number": "2277",
-            "bet_direct_rm": 0,
-            "bet_ibox_rm": 1
-        },
-        {
-            "rank": 5,
             "number": "7878",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
-            "rank": 6,
+            "rank": 5,
             "number": "2233",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
+            "rank": 6,
+            "number": "2277",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
