@@ -1,13 +1,13 @@
 {
     "formula_id": "37_ensemble_multi_regime_ibox",
     "formula_name": "Multi-Regime Ensemble & Asymmetric iBox Master V2",
-    "target_date": "15/11/2026",
-    "draw_no": "6213-26",
+    "target_date": "18/11/2026",
+    "draw_no": "6214-26",
     "meta_signals": {
-        "twin_ratio": 0.513,
-        "dominant_digit_power": 0.1075,
+        "twin_ratio": 0.507,
+        "dominant_digit_power": 0.1072,
         "entropy_f18": 9.12,
-        "entropy_f36": 9.14,
+        "entropy_f36": 9.15,
         "regime_status": "EXPONENTIAL-BALANCED"
     },
     "budget_rm": 20.0,
@@ -21,7 +21,7 @@
         {
             "number": "2228",
             "permutation": 4,
-            "score": -10.9538,
+            "score": -10.9144,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 1
@@ -29,7 +29,7 @@
         {
             "number": "7277",
             "permutation": 4,
-            "score": -11.0845,
+            "score": -11.2319,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 2
@@ -37,7 +37,7 @@
         {
             "number": "9333",
             "permutation": 4,
-            "score": -11.178,
+            "score": -11.2539,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 3
@@ -45,135 +45,135 @@
         {
             "number": "9888",
             "permutation": 4,
-            "score": -11.2721,
+            "score": -11.297,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 4
         },
         {
-            "number": "2233",
+            "number": "9898",
             "permutation": 6,
-            "score": -11.0564,
+            "score": -11.0472,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 5
         },
         {
-            "number": "2277",
+            "number": "9393",
             "permutation": 6,
-            "score": -11.0909,
+            "score": -11.1559,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 6
         },
         {
-            "number": "9393",
+            "number": "2828",
             "permutation": 6,
-            "score": -11.123,
+            "score": -11.1618,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 7
         },
         {
-            "number": "9898",
+            "number": "2255",
             "permutation": 6,
-            "score": -11.1262,
+            "score": -11.1792,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 8
         },
         {
-            "number": "2288",
+            "number": "2233",
             "permutation": 6,
-            "score": -11.1576,
+            "score": -11.196,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 9
         },
         {
-            "number": "7878",
+            "number": "9696",
             "permutation": 6,
-            "score": -11.1745,
+            "score": -11.2037,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 10
         },
         {
-            "number": "9292",
+            "number": "2277",
             "permutation": 6,
-            "score": -11.1753,
+            "score": -11.2452,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 11
         },
         {
-            "number": "2278",
+            "number": "2298",
             "permutation": 12,
-            "score": -11.1004,
+            "score": -11.1035,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 12
         },
         {
-            "number": "2293",
+            "number": "9298",
             "permutation": 12,
-            "score": -11.1039,
+            "score": -11.1741,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 13
         },
         {
-            "number": "2298",
+            "number": "2296",
             "permutation": 12,
-            "score": -11.1137,
+            "score": -11.1881,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 14
         },
         {
-            "number": "9878",
+            "number": "0336",
             "permutation": 12,
-            "score": -11.2904,
+            "score": -11.3771,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 15
         },
         {
-            "number": "7375",
+            "number": "7336",
             "permutation": 12,
-            "score": -11.5074,
+            "score": -11.4298,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 16
         },
         {
-            "number": "2251",
+            "number": "2858",
             "permutation": 12,
-            "score": -11.5114,
+            "score": -11.4299,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 17
         },
         {
-            "number": "9278",
+            "number": "7298",
             "permutation": 24,
-            "score": -11.3256,
+            "score": -11.3416,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 18
         },
         {
-            "number": "7293",
+            "number": "0298",
             "permutation": 24,
-            "score": -11.3489,
+            "score": -11.3953,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 19
         },
         {
-            "number": "9275",
+            "number": "7296",
             "permutation": 24,
-            "score": -11.4049,
+            "score": -11.4261,
             "bet_type": "iBox",
             "bet_amount_rm": 1.0,
             "rank": 20

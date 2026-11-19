@@ -1,71 +1,71 @@
 {
     "formula_id": "36_tuned_dynamic_ema_gate",
     "formula_name": "Tuned Dynamic Exponential Decay Gate",
-    "generated_at": "2026-11-18 01:58:43",
-    "last_draw_date": "15/11/2026",
-    "last_draw_no": "6213-26",
+    "generated_at": "2026-11-19 01:35:55",
+    "last_draw_date": "18/11/2026",
+    "last_draw_no": "6214-26",
     "mode": "HIGH-CONFIDENCE (RM18)",
-    "entropy": 9.1647,
+    "entropy": 9.1655,
     "budget_total_rm": 18,
-    "total_historical_draws_used": 200,
+    "total_historical_draws_used": 201,
     "recommendations": [
         {
             "rank": 1,
-            "number": "2298",
+            "number": "0298",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 2,
-            "number": "2898",
+            "number": "0236",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 3,
-            "number": "9898",
+            "number": "0256",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 4,
-            "number": "2236",
+            "number": "0278",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 5,
-            "number": "2228",
+            "number": "0258",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 6,
-            "number": "2278",
+            "number": "0286",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
             "rank": 7,
-            "number": "2828",
+            "number": "2288",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
             "rank": 8,
-            "number": "2255",
-            "bet_direct_rm": 0,
-            "bet_ibox_rm": 1
-        },
-        {
-            "rank": 9,
             "number": "2233",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
+            "rank": 9,
+            "number": "2255",
+            "bet_direct_rm": 0,
+            "bet_ibox_rm": 1
+        },
+        {
             "rank": 10,
-            "number": "7878",
+            "number": "9898",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
@@ -77,7 +77,7 @@
         },
         {
             "rank": 12,
-            "number": "2288",
+            "number": "2828",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         }
