@@ -1,29 +1,29 @@
 {
     "formula_id": "20_dynamic_regime_switching",
     "formula_name": "Dynamic Regime-Switching Gate",
-    "generated_at": "2026-11-19 01:35:55",
-    "last_draw_date": "18/11/2026",
-    "last_draw_no": "6214-26",
+    "generated_at": "2026-11-22 00:00:26",
+    "last_draw_date": "21/11/2026",
+    "last_draw_no": "6215-26",
     "regime_mode": "DISTINCT-REGIME (RM11)",
-    "entropy": 9.2048,
+    "entropy": 9.2046,
     "budget_total_rm": 11,
-    "total_historical_draws_used": 201,
+    "total_historical_draws_used": 202,
     "recommendations": [
         {
             "rank": 1,
-            "number": "9415",
-            "bet_direct_rm": 1,
-            "bet_ibox_rm": 1
-        },
-        {
-            "rank": 2,
             "number": "9915",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
         {
+            "rank": 2,
+            "number": "9415",
+            "bet_direct_rm": 1,
+            "bet_ibox_rm": 1
+        },
+        {
             "rank": 3,
-            "number": "9456",
+            "number": "9956",
             "bet_direct_rm": 1,
             "bet_ibox_rm": 1
         },
@@ -41,13 +41,13 @@
         },
         {
             "rank": 6,
-            "number": "9966",
+            "number": "9944",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
         {
             "rank": 7,
-            "number": "9944",
+            "number": "9966",
             "bet_direct_rm": 0,
             "bet_ibox_rm": 1
         },
